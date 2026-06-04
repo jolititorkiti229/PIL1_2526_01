@@ -1,297 +1,320 @@
-# 🎓 IFRI MentorLink
+🎓 IFRI MentorLink
 
-<div align="center">
+<div align="center">"Python" (https://img.shields.io/badge/Python-3.12-blue)
+"Flask" (https://img.shields.io/badge/Flask-Web_App-green)
+"MySQL" (https://img.shields.io/badge/MySQL-Database-orange)
+"Bootstrap" (https://img.shields.io/badge/Bootstrap-5-purple)
+"GitHub" (https://img.shields.io/badge/GitHub-Version_Control-black)
 
-![Python](https://img.shields.io/badge/Python-3.12-blue)
-![Flask](https://img.shields.io/badge/Flask-Web_App-green)
-![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
-![GitHub](https://img.shields.io/badge/GitHub-Version_Control-black)
+Projet Intégrateur – Licence 1
 
-### Projet Intégrateur – Licence 1
+Institut de Formation et de Recherche en Informatique (IFRI)
 
-**Institut de Formation et de Recherche en Informatique (IFRI)**
+Année Académique : 2025 - 2026
 
-Année Académique 2025-2026
+</div>---
 
-</div>
+📖 Présentation du Projet
 
----
+IFRI MentorLink est une plateforme web de mentorat académique destinée aux étudiants de l'IFRI.
 
-# 📖 Présentation
+L'objectif principal est de faciliter la collaboration entre étudiants en mettant en relation des mentors (étudiants ayant des compétences dans certaines matières) et des mentorés (étudiants ayant besoin d'accompagnement).
 
-**IFRI MentorLink** est une plateforme web de mentorat académique conçue pour faciliter la collaboration entre étudiants.
+La plateforme permettra :
 
-Elle permet :
-
-✅ La création de comptes étudiants
-
-✅ La gestion des profils
-
-✅ La publication d'offres de mentorat
-
-✅ La publication de demandes d'accompagnement
-
-✅ Le matching mentor / mentoré
-
-✅ La messagerie intégrée
-
-✅ Les notifications
+- ✅ La gestion des comptes utilisateurs
+- ✅ La gestion des profils étudiants
+- ✅ La publication d'offres de mentorat
+- ✅ La publication de demandes de mentorat
+- ✅ La recherche d'offres et de demandes
+- ✅ Un système de matching mentor / mentoré
+- ✅ Une messagerie intégrée
+- ✅ Un système de notifications
 
 ---
 
-# 🎯 Objectif
+🎯 Objectif du Projet
 
-Mettre en relation les étudiants de l'IFRI afin de :
+Créer une plateforme moderne permettant aux étudiants de :
 
 - partager leurs connaissances ;
-- développer leurs compétences ;
-- améliorer leur réussite académique ;
-- renforcer l'entraide au sein de l'institut.
+- bénéficier d'un accompagnement académique ;
+- trouver rapidement un mentor adapté à leurs besoins ;
+- renforcer l'entraide au sein de l'IFRI.
 
 ---
 
-# 👥 Équipe du Projet
+👥 Équipe du Projet
 
-| Membre | Fonction |
-|----------|----------|
-| Aminatou | Gestion du projet & Documentation |
-| Jimmy | Base de données |
-| Fridolon | Authentification |
-| Farid | Gestion du mentorat |
-| Jean Frédéric | Matching |
-| Prielle | Messagerie |
-| Hoseas | Frontend |
+Membre| Fonction
+Aminatou| Gestion du projet, documentation et livraison finale
+Jimmy| Base de données
+Fridolon| Authentification
+Farid| Gestion du mentorat
+Jean Frédéric| Algorithme de matching
+Prielle| Messagerie et notifications
+Hoseas| Frontend et interface utilisateur
 
 ---
 
-# 📂 Structure du Projet
+📂 Structure du Projet
 
-```text
 PIL1_2526_01/
 
 ├── README.md
 │
 ├── database/
+│   ├── mentorlink.sql
+│   └── MCD_MLD_IFRI_MentorLink.txt
+│
 ├── auth/
+│
 ├── mentorat/
+│
 ├── matching/
+│
 ├── messagerie/
+│
 ├── frontend/
-└── documentation/
-```
+│
+├── documentation/
+│   ├── rapport.html
+│   └── manuel_utilisateur.html
+│
+└── livrable_final/
+    ├── application/
+    ├── base_de_donnees/
+    ├── documentation/
+    └── presentation/
 
 ---
 
-# 🗂️ Répartition des tâches
+🗂️ Répartition des Tâches
 
-## 📚 Aminatou
+📚 Aminatou
 
-Dossier :
+Dossiers
 
-```text
 documentation/
-```
+livrable_final/
 
-Responsabilités :
+Responsabilités
 
-- Rapport final
-- Manuel utilisateur
-- Documentation
 - Coordination du projet
+- Suivi de l'avancement
+- Rédaction du rapport final
+- Rédaction du manuel utilisateur
+- Préparation de la soutenance
+- Assemblage du livrable final
+- Vérification de l'intégration de tous les modules
 
 ---
 
-## 🛢️ Jimmy
+🛢️ Jimmy
 
-Dossier :
+Dossier
 
-```text
 database/
-```
 
-Responsabilités :
+Responsabilités
 
-- Base de données
-- Script SQL
-- Relations entre tables
-- Maintenance SQL
+- Conception de la base de données
+- Création du script SQL
+- Gestion des relations entre les tables
+- Maintenance de la base de données
+- Support SQL aux autres membres
 
-Livrables :
+Livrables
 
-```text
 mentorlink.sql
 MCD_MLD_IFRI_MentorLink.txt
-```
 
 ---
 
-## 🔐 Fridolon
+🔐 Fridolon
 
-Dossier :
+Dossier
 
-```text
 auth/
-```
 
-Responsabilités :
+Responsabilités
 
 - Inscription
 - Connexion
 - Déconnexion
 - Gestion des sessions
+- Sécurisation des mots de passe
 
 ---
 
-## 🎓 Farid
+🎓 Farid
 
-Dossier :
+Dossier
 
-```text
 mentorat/
-```
 
-Responsabilités :
+Responsabilités
 
-- Offres de mentorat
-- Demandes de mentorat
-- Gestion des candidatures
+- Création des offres de mentorat
+- Création des demandes de mentorat
+- Recherche d'offres
+- Recherche de demandes
+- Réponse aux offres et demandes
 
 ---
 
-## 🤝 Jean Frédéric
+🤝 Jean Frédéric
 
-Dossier :
+Dossier
 
-```text
 matching/
-```
 
-Responsabilités :
+Responsabilités
 
-- Algorithme de matching
-- Compatibilité mentor/mentoré
-- Suggestions de mentors
+- Développement de l'algorithme de matching
+- Calcul du score de compatibilité
+- Affichage des résultats
+
+Critères du Matching
+
+- Compatibilité des matières
+- Compatibilité des disponibilités
+- Filière
+- Niveau d'étude
 
 ---
 
-## 💬 Prielle
+💬 Prielle
 
-Dossier :
+Dossier
 
-```text
 messagerie/
-```
 
-Responsabilités :
+Responsabilités
 
-- Conversations
-- Messages
+- Gestion des conversations
+- Envoi de messages
+- Réception de messages
+- Historique des conversations
 - Notifications
 
 ---
 
-## 🎨 Hoseas
+🎨 Hoseas
 
-Dossier :
+Dossier
 
-```text
 frontend/
-```
 
-Responsabilités :
+Responsabilités
 
-- Interface utilisateur
-- HTML
-- CSS
-- Bootstrap
+- Intégration de la maquette
+- Développement des pages HTML
+- CSS et Bootstrap
 - Responsive Design
+- Expérience utilisateur
 
 ---
 
-# 🚀 Installation
+🚀 Installation du Projet
 
-## 1️⃣ Cloner le dépôt
+1. Cloner le dépôt
 
-```bash
 git clone https://github.com/jolititorkiti229/PIL1_2526_01.git
-```
 
-## 2️⃣ Entrer dans le projet
+2. Accéder au projet
 
-```bash
 cd PIL1_2526_01
-```
 
 ---
 
-# 🔄 Avant de commencer à travailler
+🔄 Avant de Commencer à Travailler
 
-Toujours récupérer la dernière version :
+Chaque membre doit récupérer les dernières modifications :
 
-```bash
 git pull origin main
-```
 
 ---
 
-# 📤 Envoyer son travail
+📤 Comment Envoyer son Travail
 
-## Ajouter les fichiers
+Ajouter les fichiers
 
-```bash
 git add .
-```
 
-## Créer un commit
+Créer un commit
 
-```bash
-git commit -m "Description des modifications"
-```
+git commit -m "Description du travail effectué"
 
-Exemple :
+Exemples :
 
-```bash
 git commit -m "Ajout du système de connexion"
-```
 
-## Envoyer vers GitHub
+git commit -m "Création de la page de matching"
 
-```bash
+Envoyer les modifications
+
 git push origin main
-```
 
 ---
 
-# 📌 Règles du Projet
+📌 Règles de Collaboration
+
+À faire
 
 ✅ Travailler uniquement dans son dossier.
 
-✅ Faire un `git pull` avant chaque session.
+✅ Faire un "git pull" avant chaque session.
 
-✅ Tester son travail avant de le pousser.
+✅ Tester son travail avant de l'envoyer.
 
-✅ Utiliser des messages de commit clairs.
+✅ Faire des commits réguliers.
 
-❌ Ne pas modifier les fichiers d'un autre membre sans accord.
+✅ Utiliser des messages de commit explicites.
+
+À éviter
+
+❌ Modifier le travail d'un autre membre sans son accord.
+
+❌ Supprimer des fichiers appartenant à un autre module.
+
+❌ Envoyer du code non testé.
 
 ---
 
-# 🏆 Résultat attendu
+📦 Organisation du Livrable Final
+
+⚠️ Pendant le développement, personne ne travaille directement dans :
+
+livrable_final/
+
+Ce dossier sera utilisé uniquement à la fin du projet pour regrouper :
+
+- l'application complète ;
+- la base de données finale ;
+- la documentation ;
+- la présentation de soutenance.
+
+La préparation du livrable final est sous la responsabilité d'Aminatou.
+
+---
+
+🏆 Résultat Attendu
 
 Une plateforme web complète permettant :
 
-- la mise en relation mentor / mentoré ;
-- le partage de compétences ;
-- la communication entre étudiants ;
-- l'accompagnement académique à l'IFRI.
+- de trouver un mentor ;
+- de devenir mentor ;
+- d'échanger via une messagerie intégrée ;
+- de publier des offres et des demandes ;
+- de bénéficier d'un système de matching intelligent ;
+
+tout en respectant les exigences du Projet Intégrateur IFRI 2025-2026.
 
 ---
 
-<div align="center">
+<div align="center">IFRI MentorLink © 2025-2026
 
-### IFRI MentorLink © 2025-2026
-
-Projet Intégrateur Licence 1
+Projet Intégrateur – Licence 1 – IFRI
 
 </div>
