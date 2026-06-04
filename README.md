@@ -1,286 +1,297 @@
-PIL1_2526_01 - IFRI MentorLink
+# 🎓 IFRI MentorLink
 
-Présentation du projet
+<div align="center">
 
-IFRI MentorLink est une plateforme de mentorat académique destinée aux étudiants de l'IFRI.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Flask](https://img.shields.io/badge/Flask-Web_App-green)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
+![GitHub](https://img.shields.io/badge/GitHub-Version_Control-black)
 
-L'objectif principal est de mettre en relation des étudiants ayant des compétences dans certaines matières (mentors) avec des étudiants rencontrant des difficultés dans ces mêmes matières (mentorés).
+### Projet Intégrateur – Licence 1
 
-La plateforme permettra :
+**Institut de Formation et de Recherche en Informatique (IFRI)**
 
-- La création et la gestion de comptes utilisateurs.
-- La gestion des profils étudiants.
-- La publication d'offres et de demandes de mentorat.
-- La recherche d'offres et de demandes.
-- La mise en relation automatique (matching) mentor/mentoré.
-- Une messagerie intégrée.
-- Un système de notifications.
+Année Académique 2025-2026
 
-Technologies utilisées
-
-Frontend
-
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap 5
-
-Backend
-
-- Python
-- Flask
-
-Base de données
-
-- MySQL
-
-Gestion de version
-
-- Git
-- GitHub
+</div>
 
 ---
 
-Répartition des tâches
+# 📖 Présentation
 
-Membre 1 : Aminatou
+**IFRI MentorLink** est une plateforme web de mentorat académique conçue pour faciliter la collaboration entre étudiants.
 
-Responsable
+Elle permet :
 
-Documentation et gestion du projet
+✅ La création de comptes étudiants
 
-Tâches
+✅ La gestion des profils
 
-- Rédaction du rapport final.
-- Rédaction du manuel utilisateur.
-- Organisation des réunions.
-- Vérification de l'avancement global.
-- Préparation de la présentation finale.
-- Gestion du dossier :
+✅ La publication d'offres de mentorat
 
-documentation/
+✅ La publication de demandes d'accompagnement
 
----
+✅ Le matching mentor / mentoré
 
-Membre 2 : Jimmy
+✅ La messagerie intégrée
 
-Responsable
-
-Base de données
-
-Tâches
-
-- Conception de la base de données.
-- Création du script SQL.
-- Gestion des relations entre les tables.
-- Maintenance de la base de données.
-- Assistance SQL aux autres membres.
-
-Dossier concerné
-
-database/
-
-Contenu attendu :
-
-mentorlink.sql
-MCD_MLD_IFRI_MentorLink.txt
+✅ Les notifications
 
 ---
 
-Membre 3 : Fridolon
+# 🎯 Objectif
 
-Responsable
+Mettre en relation les étudiants de l'IFRI afin de :
 
-Authentification
-
-Tâches
-
-- Inscription.
-- Connexion.
-- Déconnexion.
-- Gestion des sessions.
-- Hashage des mots de passe.
-
-Dossier concerné
-
-auth/
+- partager leurs connaissances ;
+- développer leurs compétences ;
+- améliorer leur réussite académique ;
+- renforcer l'entraide au sein de l'institut.
 
 ---
 
-Membre 4 : Farid
+# 👥 Équipe du Projet
 
-Responsable
-
-Gestion du mentorat
-
-Tâches
-
-- Création des offres.
-- Création des demandes.
-- Recherche d'offres.
-- Recherche de demandes.
-- Gestion des réponses aux offres.
-
-Dossier concerné
-
-mentorat/
+| Membre | Fonction |
+|----------|----------|
+| Aminatou | Gestion du projet & Documentation |
+| Jimmy | Base de données |
+| Fridolon | Authentification |
+| Farid | Gestion du mentorat |
+| Jean Frédéric | Matching |
+| Prielle | Messagerie |
+| Hoseas | Frontend |
 
 ---
 
-Membre 5 : Jean Frédéric
+# 📂 Structure du Projet
 
-Responsable
-
-Algorithme de matching
-
-Tâches
-
-- Développement de l'algorithme de correspondance.
-- Calcul du score de compatibilité.
-- Affichage des résultats de matching.
-
-Dossier concerné
-
-matching/
-
-Critères du score :
-
-- Compatibilité des matières.
-- Compatibilité des disponibilités.
-- Filière.
-- Niveau d'étude.
-
----
-
-Membre 6 : Prielle
-
-Responsable
-
-Messagerie
-
-Tâches
-
-- Gestion des conversations.
-- Envoi de messages.
-- Réception des messages.
-- Historique des conversations.
-- Notifications.
-
-Dossier concerné
-
-messagerie/
-
----
-
-Membre 7 : Hoseas
-
-Responsable
-
-Interface utilisateur (Frontend)
-
-Tâches
-
-- Intégration de la maquette.
-- Création des pages HTML.
-- CSS et Bootstrap.
-- Responsive Design.
-- Expérience utilisateur.
-
-Dossier concerné
-
-frontend/
-
----
-
-Structure du projet
-
+```text
 PIL1_2526_01/
 
 ├── README.md
-
+│
 ├── database/
 ├── auth/
 ├── mentorat/
 ├── matching/
 ├── messagerie/
 ├── frontend/
-├── documentation/
+└── documentation/
+```
 
 ---
 
-Installation du projet
+# 🗂️ Répartition des tâches
 
-1. Cloner le dépôt
+## 📚 Aminatou
 
+Dossier :
+
+```text
+documentation/
+```
+
+Responsabilités :
+
+- Rapport final
+- Manuel utilisateur
+- Documentation
+- Coordination du projet
+
+---
+
+## 🛢️ Jimmy
+
+Dossier :
+
+```text
+database/
+```
+
+Responsabilités :
+
+- Base de données
+- Script SQL
+- Relations entre tables
+- Maintenance SQL
+
+Livrables :
+
+```text
+mentorlink.sql
+MCD_MLD_IFRI_MentorLink.txt
+```
+
+---
+
+## 🔐 Fridolon
+
+Dossier :
+
+```text
+auth/
+```
+
+Responsabilités :
+
+- Inscription
+- Connexion
+- Déconnexion
+- Gestion des sessions
+
+---
+
+## 🎓 Farid
+
+Dossier :
+
+```text
+mentorat/
+```
+
+Responsabilités :
+
+- Offres de mentorat
+- Demandes de mentorat
+- Gestion des candidatures
+
+---
+
+## 🤝 Jean Frédéric
+
+Dossier :
+
+```text
+matching/
+```
+
+Responsabilités :
+
+- Algorithme de matching
+- Compatibilité mentor/mentoré
+- Suggestions de mentors
+
+---
+
+## 💬 Prielle
+
+Dossier :
+
+```text
+messagerie/
+```
+
+Responsabilités :
+
+- Conversations
+- Messages
+- Notifications
+
+---
+
+## 🎨 Hoseas
+
+Dossier :
+
+```text
+frontend/
+```
+
+Responsabilités :
+
+- Interface utilisateur
+- HTML
+- CSS
+- Bootstrap
+- Responsive Design
+
+---
+
+# 🚀 Installation
+
+## 1️⃣ Cloner le dépôt
+
+```bash
 git clone https://github.com/jolititorkiti229/PIL1_2526_01.git
+```
 
-2. Entrer dans le dossier
+## 2️⃣ Entrer dans le projet
 
+```bash
 cd PIL1_2526_01
+```
 
 ---
 
-Règles de travail Git
+# 🔄 Avant de commencer à travailler
 
-Chaque membre doit travailler uniquement dans son dossier.
+Toujours récupérer la dernière version :
 
-Exemple :
-
-- Fridolon travaille dans "auth/"
-- Farid travaille dans "mentorat/"
-- Jean Frédéric travaille dans "matching/"
-- Prielle travaille dans "messagerie/"
-- Hoseas travaille dans "frontend/"
-- Aminatou travaille dans "documentation/"
-- Jimmy travaille dans "database/"
-
----
-
-Récupérer les dernières modifications
-
-Avant chaque séance de travail :
-
+```bash
 git pull origin main
+```
 
 ---
 
-Envoyer son travail sur GitHub
+# 📤 Envoyer son travail
 
-Ajouter les fichiers
+## Ajouter les fichiers
 
+```bash
 git add .
+```
 
-Créer un commit
+## Créer un commit
 
-git commit -m "Description du travail effectué"
+```bash
+git commit -m "Description des modifications"
+```
 
 Exemple :
 
-git commit -m "Ajout de la page de connexion"
+```bash
+git commit -m "Ajout du système de connexion"
+```
 
-Envoyer les modifications
+## Envoyer vers GitHub
 
+```bash
 git push origin main
+```
 
 ---
 
-Bonnes pratiques
+# 📌 Règles du Projet
 
-- Faire des commits régulièrement.
-- Écrire des messages de commit clairs.
-- Ne pas modifier le dossier d'un autre membre sans son accord.
-- Toujours effectuer un "git pull" avant de commencer à travailler.
-- Tester son code avant de l'envoyer.
+✅ Travailler uniquement dans son dossier.
+
+✅ Faire un `git pull` avant chaque session.
+
+✅ Tester son travail avant de le pousser.
+
+✅ Utiliser des messages de commit clairs.
+
+❌ Ne pas modifier les fichiers d'un autre membre sans accord.
 
 ---
 
-Objectif final
+# 🏆 Résultat attendu
 
-Développer une plateforme complète de mentorat académique permettant aux étudiants de l'IFRI :
+Une plateforme web complète permettant :
 
-- de trouver un mentor ;
-- de devenir mentor ;
-- d'échanger via une messagerie ;
-- de bénéficier d'un système de matching intelligent ;
+- la mise en relation mentor / mentoré ;
+- le partage de compétences ;
+- la communication entre étudiants ;
+- l'accompagnement académique à l'IFRI.
 
-tout en respectant les exigences du Projet Intégrateur 2025-2026.
+---
+
+<div align="center">
+
+### IFRI MentorLink © 2025-2026
+
+Projet Intégrateur Licence 1
+
+</div>
