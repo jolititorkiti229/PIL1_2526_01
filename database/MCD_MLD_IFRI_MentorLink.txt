@@ -1,0 +1,67 @@
+MCD (MODELE CONCEPTUEL DE DONNEES) - IFRI_MentorLink
+
+FILIERE (id, nom)
+
+UTILISATEUR (id, nom, prenom, email, telephone, password, niveau, photo,
+bio, centre_interet, date_creation) APPARTIENT A FILIERE
+
+MATIERE (id, nom, description)
+
+COMPETENCE (id, type, niveau) UTILISATEUR POSSEDE DES MATIERES
+
+DISPONIBILITE (id, jour, heure_debut, heure_fin) UTILISATEUR DEFINIT SES
+DISPONIBILITES
+
+MENTORAT (id, type, description, format, statut, date_creation)
+UTILISATEUR PUBLIE UNE OFFRE OU UNE DEMANDE MATIERE CONCERNEE
+
+MATCHING (id, score, competence_score, disponibilite_score,
+filiere_score, date_creation) MENTOR ASSOCIE A MENTORE
+
+CONVERSATION (id, created_at)
+
+CONVERSATION_USERS (id) UTILISATEUR PARTICIPE A UNE CONVERSATION
+
+MESSAGE (id, message, lu, date_envoi) MESSAGE APPARTIENT A UNE
+CONVERSATION MESSAGE ENVOYE PAR UN UTILISATEUR
+
+NOTIFICATION (id, titre, contenu, lu, created_at) UTILISATEUR RECOIT UNE
+NOTIFICATION
+
+SESSION_MENTORAT (id, date_session, format, statut, commentaire)
+
+AVIS (id, note, commentaire, created_at)
+
+MLD (MODELE LOGIQUE DE DONNEES)
+
+FILIERES(id PK, nom)
+
+MATIERES(id PK, nom, description)
+
+USERS( id PK, nom, prenom, email UNIQUE, telephone UNIQUE, password,
+filiere_id FK, niveau, photo, bio, centre_interet, date_creation )
+
+COMPETENCES( id PK, user_id FK, matiere_id FK, type, niveau )
+
+DISPONIBILITES( id PK, user_id FK, jour, heure_debut, heure_fin )
+
+MENTORAT( id PK, user_id FK, matiere_id FK, type, description, format,
+statut, date_creation )
+
+MATCHING( id PK, mentor_id FK, mentore_id FK, score, competence_score,
+disponibilite_score, filiere_score, date_creation )
+
+CONVERSATIONS(id PK, created_at)
+
+CONVERSATION_USERS( id PK, conversation_id FK, user_id FK )
+
+MESSAGES( id PK, conversation_id FK, sender_id FK, message, lu,
+date_envoi )
+
+NOTIFICATIONS( id PK, user_id FK, titre, contenu, lu, created_at )
+
+SESSIONS_MENTORAT( id PK, mentor_id FK, mentore_id FK, date_session,
+format, statut, commentaire )
+
+AVIS( id PK, session_id FK, auteur_id FK, note, commentaire, created_at
+)
