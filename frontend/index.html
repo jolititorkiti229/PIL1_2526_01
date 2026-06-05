@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFRI_MentorLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    .page { display: none; }
+    .page.active { display: block; }
+    .auth-page { display: none; }
+    .auth-page.active { display: flex; }
+    #app-section { display: none; }
+    #auth-section { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- ========== LANDING PAGE ========== -->
+<div id="landing-section">
+  <!-- Navbar -->
+  <nav class="navbar-landing">
+    <a class="navbar-brand-logo" href="#">
+      <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      IFRI_MentorLink
+    </a>
+    <div class="navbar-links">
+      <a href="#">Accueil</a>
+      <a href="#">À propos</a>
+      <a href="#">Fonctionnalités</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-outline-custom" onclick="goToAuth('login')">Se connecter</button>
+      <button class="btn-primary-custom" onclick="goToAuth('register')">S'inscrire</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>Connecte-toi.<br>Apprends, partage,<br>progresse.</h1>
+      <p>IFRI_MentorLink met en relation les étudiants de l'IFRI pour du mentorat académique et professionnel. Trouvez le mentor idéal ou aidez un pair à réussir.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary-custom" onclick="goToAuth('register')">
+          <i class="fa-solid fa-chalkboard-teacher"></i> Je suis mentor
+        </button>
+        <button class="btn-outline-custom" onclick="goToAuth('register')">
+          <i class="fa-solid fa-search"></i> Je cherche un mentor
+        </button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="img/screen.png" alt="">
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+            <h5>Trouvez un mentor</h5>
+            <p>Découvrez des mentors selon vos besoins, votre filière et vos disponibilités.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-share-nodes"></i></div>
+            <h5>Partagez vos compétences</h5>
+            <p>Aidez d'autres étudiants et développez vos compétences pédagogiques.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h5>Progressez ensemble</h5>
+            <p>Apprenez, échangez et réussissez ensemble au sein de la communauté IFRI.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== AUTH SECTION ========== -->
+<div id="auth-section" style="min-height:100vh">
+
+  <!-- LOGIN -->
+  <div class="auth-page auth-layout" id="auth-login">
+    <div class="auth-left">
+      <div class="auth-left-logo">
+        <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        IFRI_MentorLink
+      </div>
+      <div class="auth-illustration"><img src="img/School building icon in flat style_.jpg" alt="" width="160px"></div>
+      <h2>Bienvenue de retour !</h2>
+      <p>Connectez-vous pour continuer votre expérience de mentorat.</p>
+    </div>
+    <div class="auth-right">
+      <div class="auth-form-container">
+        <h3>Se connecter</h3>
+        <p class="subtitle">Entrez vos identifiants pour accéder à votre compte</p>
+        <div class="form-group">
+          <label class="form-label">Email ou téléphone</label>
+          <input type="email" class="form-control-custom" placeholder="Entrez votre email ou téléphone">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <div class="input-group-custom">
+            <input type="password" class="form-control-custom" id="login-password" placeholder="Entrez votre mot de passe">
+            <span class="input-icon" onclick="togglePassword('login-password')"><i class="fa-regular fa-eye"></i></span>
+          </div>
+        </div>
+        <div class="forgot-link"><a href="#">Mot de passe oublié ?</a></div>
+        <button class="btn-submit" onclick="goToDashboard()">Se connecter</button>
+        <p class="auth-footer">Pas encore de compte ? <a href="#" onclick="showAuth('register')">S'inscrire</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="auth-page auth-layout" id="auth-register">
+    <div class="auth-left">
+      <div class="auth-left-logo">
+        <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        IFRI_MentorLink
+      </div>
+      <div class="auth-illustration"><img src="img/Download Diverse Hands Shaking, Symbolizing Partnership and Unity for free.jpg" alt="" width="140px  "></div>
+      <h2>Rejoignez la communauté</h2>
+      <p>Créez votre compte et commencez votre aventure de mentorat à l'IFRI.</p>
+    </div>
+    <div class="auth-right" style="overflow-y:auto">
+      <div class="auth-form-container">
+        <h3>Créer un compte</h3>
+        <p class="subtitle">Remplissez le formulaire pour créer votre compte</p>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input type="text" class="form-control-custom" placeholder="Entrez votre nom">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input type="text" class="form-control-custom" placeholder="Entrez votre prénom">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control-custom" placeholder="Entrez votre email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input type="tel" class="form-control-custom" placeholder="Entrez votre numéro">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Filière</label>
+            <select class="form-select-custom">
+              <option>Choisir...</option>
+              <option>Intelligence Artificielle</option>
+              <option>Génie Logiciel</option>
+              <option>Réseaux & Télécom</option>
+              <option>Systèmes Embarqués</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau</label>
+            <select class="form-select-custom">
+              <option>Choisir...</option>
+              <option>L1</option><option>L2</option><option>L3</option>
+              <option>M1</option><option>M2</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <div class="input-group-custom">
+            <input type="password" id="reg-pass" class="form-control-custom" placeholder="Créez un mot de passe">
+            <span class="input-icon" onclick="togglePassword('reg-pass')"><i class="fa-regular fa-eye"></i></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <div class="input-group-custom">
+            <input type="password" id="reg-pass2" class="form-control-custom" placeholder="Confirmez votre mot de passe">
+            <span class="input-icon" onclick="togglePassword('reg-pass2')"><i class="fa-regular fa-eye"></i></span>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="goToDashboard()">S'inscrire</button>
+        <p class="auth-footer">Déjà un compte ? <a href="#" onclick="showAuth('login')">Se connecter</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP SECTION ========== -->
+<div id="app-section" class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="#" onclick="showPage('page-dashboard')">
+      <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      IFRI_MentorLink
+    </a>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-page="page-dashboard" onclick="showPage('page-dashboard')">
+        <i class="fa-solid fa-house"></i> Tableau de bord
+      </a>
+      <a class="nav-item" data-page="page-profile" onclick="showPage('page-profile')">
+        <i class="fa-regular fa-user"></i> Mon profil
+      </a>
+      <a class="nav-item" data-page="page-search" onclick="showPage('page-search')">
+        <i class="fa-solid fa-magnifying-glass"></i> Rechercher
+      </a>
+      <a class="nav-item" data-page="page-offers" onclick="showPage('page-offers')">
+        <i class="fa-solid fa-briefcase"></i> Mes offres / demandes
+      </a>
+      <a class="nav-item" data-page="page-correspondances" onclick="showPage('page-correspondances')">
+        <i class="fa-solid fa-heart"></i> Mes correspondances
+      </a>
+      <a class="nav-item" data-page="page-messages" onclick="showPage('page-messages')">
+        <i class="fa-solid fa-comment-dots"></i> Messagerie
+        <span class="nav-badge">2</span>
+      </a>
+      <a class="nav-item" data-page="page-settings" onclick="showPage('page-settings')">
+        <i class="fa-solid fa-gear"></i> Paramètres
+      </a>
+      <a class="nav-item" onclick="goToLanding()" style="margin-top:auto">
+        <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="user-avatar">EA</div>
+      <div class="user-info">
+        <div class="user-name">Emmanuel A.</div>
+        <div class="user-role">Mentoré · IA L2</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+      <div class="topbar-right">
+        <button class="notif-btn"><i class="fa-regular fa-bell"></i><span class="notif-dot"></span></button>
+        <div class="user-avatar" style="cursor:pointer" onclick="showPage('page-profile')">EA</div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : DASHBOARD ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-content">
+        <div class="mb-3">
+          <div style="font-size:20px;font-weight:900;color:var(--dark)">Tableau de bord</div>
+          <div style="color:var(--gray-500);font-size:13px;margin-top:2px">Bienvenue, Emmanuel A. Voici un aperçu de votre activité.</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fa-solid fa-briefcase"></i></div>
+              <div>
+                <div class="stat-value">2</div>
+                <div class="stat-label">Offres publiées</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-paper-plane"></i></div>
+              <div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Demandes envoyées</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon red"><i class="fa-solid fa-heart"></i></div>
+              <div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">Correspondances</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon purple"><i class="fa-solid fa-comment-dots"></i></div>
+              <div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Messages non lus</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <!-- Activité récente -->
+          <div class="col-md-7">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div class="section-title">Activité récente</div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background:var(--primary)"></div>
+                  <div class="activity-text">Nouvelle correspondance avec <strong>Marie K.</strong></div>
+                  <div class="activity-time">il y a 2 heures</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background:var(--success)"></div>
+                  <div class="activity-text">Message reçu de <strong>Jean B.</strong></div>
+                  <div class="activity-time">il y a 3 heures</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background:var(--warning)"></div>
+                  <div class="activity-text">Votre demande en <strong>Mathématiques</strong> a une réponse.</div>
+                  <div class="activity-time">il y a 1 jour</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background:var(--accent)"></div>
+                  <div class="activity-text">Profil complété à <strong>85%</strong> — ajoutez vos disponibilités.</div>
+                  <div class="activity-time">il y a 2 jours</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggestions -->
+          <div class="col-md-5">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div class="section-header">
+                  <div class="section-title" style="margin-bottom:0">Suggestions pour vous</div>
+                  <a class="see-all" onclick="showPage('page-search')">Voir tout</a>
+                </div>
+                <div class="suggestion-item">
+                  <div class="user-avatar">SD</div>
+                  <div class="suggestion-info">
+                    <div class="suggestion-name">Sophie D.</div>
+                    <div class="suggestion-meta">Mathématiques · L2 · IA</div>
+                    <div class="suggestion-compat">Compatibilité : 85%</div>
+                  </div>
+                  <button class="btn-outline-custom" style="padding:5px 12px;font-size:12px" onclick="showPage('page-mentor-profile')">Voir profil</button>
+                </div>
+                <div class="suggestion-item">
+                  <div class="user-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">AT</div>
+                  <div class="suggestion-info">
+                    <div class="suggestion-name">Arnaud T.</div>
+                    <div class="suggestion-meta">Algorithmique · L3 · GL</div>
+                    <div class="suggestion-compat">Compatibilité : 78%</div>
+                  </div>
+                  <button class="btn-outline-custom" style="padding:5px 12px;font-size:12px" onclick="showPage('page-mentor-profile')">Voir profil</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : SEARCH / MATCHING ===== -->
+    <div class="page" id="page-search">
+      <div class="page-content">
+        <!-- Barre de filtre -->
+        <div class="card-custom mb-4">
+          <div class="card-body-custom">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <label class="form-label">Matière</label>
+                <input type="text" class="form-control-custom" placeholder="Ex: Python, Mathématiques...">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Filière</label>
+                <select class="form-select-custom">
+                  <option>Toutes les filières</option>
+                  <option>Intelligence Artificielle</option>
+                  <option>Génie Logiciel</option>
+                  <option>Réseaux & Télécom</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Disponibilité</label>
+                <select class="form-select-custom">
+                  <option>Tous les jours</option>
+                  <option>Lundi</option><option>Mardi</option>
+                  <option>Mercredi</option><option>Jeudi</option>
+                  <option>Vendredi</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button class="btn-primary-custom w-100" style="padding:11px">
+                  <i class="fa-solid fa-search"></i> Chercher
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">Résultats de correspondance</div>
+        <p style="color:var(--gray-500);font-size:13px;margin-bottom:20px">Voici les mentors/mentorés qui correspondent le mieux à vos besoins.</p>
+
+        <div class="d-flex flex-column gap-3">
+          <!-- Card mentor 1 -->
+          <div class="mentor-card">
+            <div class="mentor-avatar-lg">SD</div>
+            <div class="mentor-info">
+              <div class="mentor-name">Sophie Dossou</div>
+              <div class="mentor-meta">L2 · IA &nbsp;·&nbsp; Université d'Abomey-Calavi (IFRI)</div>
+              <div class="mentor-tags">
+                <span class="tag">Mathématiques</span>
+                <span class="tag">Python</span>
+                <span class="tag">Statistiques</span>
+              </div>
+              <div class="dispo-text"><i class="fa-regular fa-clock"></i> Disponibilités : Lun 14h-16h, Mer 10h-12h</div>
+            </div>
+            <div class="compatibility-badge">
+              <div class="compat-circle">85%</div>
+              <div class="compat-label">Compatibilité</div>
+            </div>
+            <div class="mentor-actions">
+              <button class="btn-primary-custom" style="padding:7px 14px;font-size:12px" onclick="showPage('page-mentor-profile')">Voir profil</button>
+              <button class="btn-outline-custom" style="padding:5px 14px;font-size:12px">Contacter</button>
+            </div>
+          </div>
+
+          <!-- Card mentor 2 -->
+          <div class="mentor-card">
+            <div class="mentor-avatar-lg" style="background:linear-gradient(135deg,#10B981,#059669)">AT</div>
+            <div class="mentor-info">
+              <div class="mentor-name">Arnaud Tchibozo</div>
+              <div class="mentor-meta">L3 · GL &nbsp;·&nbsp; IFRI</div>
+              <div class="mentor-tags">
+                <span class="tag">Algorithmique</span>
+                <span class="tag purple">Structures de données</span>
+                <span class="tag green">C++</span>
+              </div>
+              <div class="dispo-text"><i class="fa-regular fa-clock"></i> Disponibilités : Mar 16h-18h, Jeu 14h-16h</div>
+            </div>
+            <div class="compatibility-badge">
+              <div class="compat-circle" style="border-color:#3B82F6;color:#3B82F6">78%</div>
+              <div class="compat-label">Compatibilité</div>
+            </div>
+            <div class="mentor-actions">
+              <button class="btn-primary-custom" style="padding:7px 14px;font-size:12px" onclick="showPage('page-mentor-profile')">Voir profil</button>
+              <button class="btn-outline-custom" style="padding:5px 14px;font-size:12px">Contacter</button>
+            </div>
+          </div>
+
+          <!-- Card mentor 3 -->
+          <div class="mentor-card">
+            <div class="mentor-avatar-lg" style="background:linear-gradient(135deg,#F59E0B,#D97706)">MK</div>
+            <div class="mentor-info">
+              <div class="mentor-name">Marie Kakai</div>
+              <div class="mentor-meta">L2 · SI &nbsp;·&nbsp; IFRI</div>
+              <div class="mentor-tags">
+                <span class="tag">Bases de données</span>
+                <span class="tag green">SQL</span>
+                <span class="tag purple">Modélisation</span>
+              </div>
+              <div class="dispo-text"><i class="fa-regular fa-clock"></i> Disponibilités : Ven 09h-11h, Sam 14h-16h</div>
+            </div>
+            <div class="compatibility-badge">
+              <div class="compat-circle" style="border-color:#F59E0B;color:#F59E0B">72%</div>
+              <div class="compat-label">Compatibilité</div>
+            </div>
+            <div class="mentor-actions">
+              <button class="btn-primary-custom" style="padding:7px 14px;font-size:12px" onclick="showPage('page-mentor-profile')">Voir profil</button>
+              <button class="btn-outline-custom" style="padding:5px 14px;font-size:12px">Contacter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : PROFIL MENTOR ===== -->
+    <div class="page" id="page-mentor-profile">
+      <div class="page-content">
+        <div class="mb-3">
+          <a style="color:var(--primary);cursor:pointer;font-size:13px;font-weight:700;text-decoration:none" onclick="showPage('page-search')">
+            <i class="fa-solid fa-arrow-left me-1"></i> Retour aux résultats
+          </a>
+          <div style="font-size:18px;font-weight:900;color:var(--dark);margin-top:8px">Profil de Sophie Dossou</div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-8">
+            <!-- Header profil -->
+            <div class="profile-header-card">
+              <div class="profile-avatar-xl">SD</div>
+              <div style="flex:1">
+                <div style="font-size:20px;font-weight:900;color:var(--dark)">Sophie Dossou</div>
+                <div style="color:var(--gray-500);font-size:13px;margin-top:2px">Étudiante en L2 · Intelligence Artificielle</div>
+                <div style="color:var(--gray-500);font-size:13px">Université d'Abomey-Calavi (IFRI)</div>
+                <div class="mt-2 d-flex align-items-center gap-2">
+                  <span class="stars">★★★★★</span>
+                  <span class="rating-score">4.8</span>
+                  <span style="color:var(--gray-400);font-size:12px">(12 avis)</span>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2">
+                <button class="btn-primary-custom" onclick="showPage('page-messages')">
+                  <i class="fa-solid fa-comment"></i> Contacter
+                </button>
+                <button class="btn-outline-custom">
+                  <i class="fa-regular fa-heart"></i> Ajouter aux favoris
+                </button>
+              </div>
+            </div>
+
+            <!-- Infos -->
+            <div class="card-custom mb-3">
+              <div class="card-body-custom">
+                <div class="section-title">À propos</div>
+                <p style="color:var(--gray-600);font-size:14px;line-height:1.7">Passionnée par les maths et la programmation. J'aime transmettre et aider les autres à comprendre les concepts difficiles.</p>
+                <div class="divider"></div>
+                <div class="row g-3">
+                  <div class="col-6">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700;margin-bottom:8px">Compétences (points forts)</div>
+                    <div class="d-flex flex-wrap gap-1">
+                      <span class="tag">Mathématiques</span>
+                      <span class="tag">Python</span>
+                      <span class="tag">Statistiques</span>
+                      <span class="tag">Algorithmique</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700;margin-bottom:8px">Disponibilités</div>
+                    <div style="font-size:13px;color:var(--gray-700);line-height:1.8">
+                      Lundi : 14h – 16h<br>
+                      Mercredi : 10h – 12h<br>
+                      Vendredi : 14h – 16h
+                    </div>
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <div class="row">
+                  <div class="col-6">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700">Filière</div>
+                    <div style="font-weight:700;color:var(--dark)">IA</div>
+                  </div>
+                  <div class="col-6">
+                    <div style="font-size:12px;color:var(--gray-500);font-weight:700">Niveau</div>
+                    <div style="font-weight:700;color:var(--dark)">L3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Avis -->
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div class="section-header">
+                  <div class="section-title" style="margin-bottom:0">Avis des étudiants</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="stars">★</span>
+                    <span class="rating-score">4.8 / 5</span>
+                    <span style="color:var(--gray-400);font-size:12px">12 avis</span>
+                    <a class="see-all">Voir tous les avis</a>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="user-avatar" style="width:36px;height:36px;font-size:13px">JB</div>
+                  <div class="activity-text">
+                    <strong>Jean B.</strong> <span class="stars" style="font-size:11px">★★★★★</span><br>
+                    <span style="color:var(--gray-600)">Sophie est très pédagogue. Grâce à elle j'ai compris les statistiques !</span>
+                  </div>
+                  <div class="activity-time">il y a 3 jours</div>
+                </div>
+                <div class="activity-item">
+                  <div class="user-avatar" style="width:36px;height:36px;font-size:13px;background:linear-gradient(135deg,#F59E0B,#D97706)">KA</div>
+                  <div class="activity-text">
+                    <strong>Koffi A.</strong> <span class="stars" style="font-size:11px">★★★★☆</span><br>
+                    <span style="color:var(--gray-600)">Très disponible et patiente. Je recommande vivement.</span>
+                  </div>
+                  <div class="activity-time">il y a 1 semaine</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar profil -->
+          <div class="col-md-4">
+            <div class="card-custom mb-3">
+              <div class="card-body-custom">
+                <div class="section-title">Envoyer une demande</div>
+                <div class="form-group">
+                  <label class="form-label">Matière souhaitée</label>
+                  <select class="form-select-custom">
+                    <option>Mathématiques</option>
+                    <option>Python</option>
+                    <option>Statistiques</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Message</label>
+                  <textarea class="form-control-custom" rows="3" placeholder="Présentez votre demande..."></textarea>
+                </div>
+                <button class="btn-submit" onclick="showPage('page-messages')">Envoyer la demande</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : MESSAGERIE ===== -->
+    <div class="page" id="page-messages">
+      <div class="messaging-layout">
+        <!-- Liste conversations -->
+        <div class="conversations-list">
+          <div class="conv-search">
+            <input type="text" placeholder="🔍  Rechercher une conversation">
+          </div>
+          <div class="conv-item active" onclick="openConversation('Sophie Dossou','SD','linear-gradient(135deg,#5B4FE8,#7C3AED)')">
+            <div class="user-avatar">SD</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between">
+                <span class="conv-name">Sophie Dossou</span>
+                <span class="conv-time">10:30</span>
+              </div>
+              <div class="conv-preview">Parfait, à demain alors !</div>
+            </div>
+            <div class="conv-unread">2</div>
+          </div>
+          <div class="conv-item" onclick="openConversation('Arnaud Tchibozo','AT','linear-gradient(135deg,#10B981,#059669)')">
+            <div class="user-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">AT</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between">
+                <span class="conv-name">Arnaud Tchibozo</span>
+                <span class="conv-time">Hier</span>
+              </div>
+              <div class="conv-preview">Merci beaucoup.</div>
+            </div>
+          </div>
+          <div class="conv-item" onclick="openConversation('Jean B.','JB','linear-gradient(135deg,#3B82F6,#2563EB)')">
+            <div class="user-avatar" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">JB</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between">
+                <span class="conv-name">Jean B.</span>
+                <span class="conv-time">Hier</span>
+              </div>
+              <div class="conv-preview">Je suis disponible.</div>
+            </div>
+          </div>
+          <div class="conv-item" onclick="openConversation('Marie Kakai','MK','linear-gradient(135deg,#F59E0B,#D97706)')">
+            <div class="user-avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706)">MK</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between">
+                <span class="conv-name">Marie Kakai</span>
+                <span class="conv-time">2 jours</span>
+              </div>
+              <div class="conv-preview">Je t'envoie le document.</div>
+            </div>
+          </div>
+          <div class="conv-item" onclick="openConversation('David H.','DH','linear-gradient(135deg,#8B5CF6,#6D28D9)')">
+            <div class="user-avatar" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">DH</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between">
+                <span class="conv-name">David H.</span>
+                <span class="conv-time">2 jours</span>
+              </div>
+              <div class="conv-preview">D'accord.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone chat -->
+        <div class="chat-area">
+          <!-- Empty state -->
+          <div class="empty-chat" id="empty-chat" style="display:none">
+            <i class="fa-regular fa-comment-dots"></i>
+            <p>Sélectionnez une conversation pour afficher les messages ici.</p>
+          </div>
+
+          <!-- Chat actif -->
+          <div id="active-chat" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+            <div class="chat-header">
+              <div style="position:relative">
+                <div class="user-avatar">SD</div>
+                <div class="online-dot"></div>
+              </div>
+              <div class="chat-header-info">
+                <div class="name">Sophie Dossou</div>
+                <div class="status">● En ligne</div>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+              <div>
+                <div class="msg-bubble received">Bonjour Emmanuel ! 👋</div>
+                <div class="msg-time">10:16</div>
+              </div>
+              <div>
+                <div class="msg-bubble received">J'ai vu ta demande en Mathématiques.</div>
+                <div class="msg-time">10:16</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end">
+                <div class="msg-bubble sent">Bonjour Sophie ! 😊</div>
+                <div class="msg-time" style="text-align:right">10:17</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end">
+                <div class="msg-bubble sent">Je suis disponible lundi à 14h, ça te convient ?</div>
+                <div class="msg-time" style="text-align:right">10:17</div>
+              </div>
+              <div>
+                <div class="msg-bubble received">Oui, ça me convient très bien 👍</div>
+                <div class="msg-time">10:18</div>
+              </div>
+              <div>
+                <div class="msg-bubble received">Parfait, à demain alors ! 😊</div>
+                <div class="msg-time">10:18</div>
+              </div>
+            </div>
+
+            <div class="chat-input-area">
+              <button style="width:36px;height:36px;border:none;background:none;color:var(--gray-400);font-size:20px;cursor:pointer">📎</button>
+              <input class="chat-input" id="chat-input" type="text" placeholder="Écrire un message...">
+              <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : MON PROFIL ===== -->
+    <div class="page" id="page-profile">
+      <div class="page-content">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div class="d-flex align-items-center gap-4 mb-4">
+                  <div class="profile-avatar-xl" style="position:relative">EA
+                    <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;background:var(--primary);border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:white">✏️</div>
+                  </div>
+                  <div style="flex:1">
+                    <div style="font-size:18px;font-weight:900;color:var(--dark)">Emmanuel Agossou</div>
+                    <div style="color:var(--gray-500);font-size:13px">emmanuel.agossou@ucac.bj</div>
+                    <button class="btn-outline-custom mt-2" style="padding:5px 12px;font-size:12px">Changer la photo</button>
+                  </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="profile-tabs">
+                  <div class="profile-tab active" data-tab="infos" onclick="switchProfileTab('infos')">Informations</div>
+                  <div class="profile-tab" data-tab="competences" onclick="switchProfileTab('competences')">Compétences</div>
+                  <div class="profile-tab" data-tab="dispos" onclick="switchProfileTab('dispos')">Disponibilités</div>
+                  <div class="profile-tab" data-tab="prefs" onclick="switchProfileTab('prefs')">Préférences</div>
+                </div>
+
+                <!-- Tab : Informations -->
+                <div id="tab-infos" class="profile-tab-content">
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Nom</label>
+                      <input type="text" class="form-control-custom" value="Agossou">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Prénom</label>
+                      <input type="text" class="form-control-custom" value="Emmanuel">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Email</label>
+                      <input type="email" class="form-control-custom" value="emmanuel.agossou@ucac.bj">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Téléphone</label>
+                      <input type="tel" class="form-control-custom" value="+229 97 12 34 56">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Filière</label>
+                      <select class="form-select-custom">
+                        <option selected>Intelligence Artificielle</option>
+                        <option>Génie Logiciel</option>
+                        <option>Réseaux & Télécom</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Niveau</label>
+                      <select class="form-select-custom">
+                        <option>L1</option>
+                        <option selected>L2</option>
+                        <option>L3</option>
+                        <option>M1</option><option>M2</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea class="form-control-custom" rows="3">Passionné par l'IA et la résolution de problèmes. J'aime apprendre et aider mes pairs.</textarea>
+                  </div>
+                  <button class="btn-primary-custom">Enregistrer les modifications</button>
+                  <button class="btn-outline-custom ms-2" style="color:var(--danger);border-color:var(--danger)">Supprimer</button>
+                </div>
+
+                <!-- Tab : Compétences -->
+                <div id="tab-competences" class="profile-tab-content" style="display:none">
+                  <div class="form-group">
+                    <label class="form-label">Mes compétences (points forts)</label>
+                    <input type="text" class="form-control-custom" placeholder="Ex: Python, Mathématiques, SQL..." value="Python, Réseaux, Linux">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Mes difficultés (besoins d'aide)</label>
+                    <input type="text" class="form-control-custom" placeholder="Ex: Algorithmique, Bases de données..." value="Mathématiques avancées, Statistiques">
+                  </div>
+                  <button class="btn-primary-custom mt-2">Enregistrer</button>
+                </div>
+
+                <!-- Tab : Disponibilités -->
+                <div id="tab-dispos" class="profile-tab-content" style="display:none">
+                  <p style="color:var(--gray-500);font-size:13px;margin-bottom:16px">Indiquez vos créneaux de disponibilité pour les séances de mentorat.</p>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Lundi</label>
+                      <input type="text" class="form-control-custom" placeholder="Ex: 14h-16h">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Mardi</label>
+                      <input type="text" class="form-control-custom" placeholder="Ex: 10h-12h">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Mercredi</label>
+                      <input type="text" class="form-control-custom" placeholder="Ex: 14h-16h">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Jeudi</label>
+                      <input type="text" class="form-control-custom">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Vendredi</label>
+                      <input type="text" class="form-control-custom">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Samedi</label>
+                      <input type="text" class="form-control-custom">
+                    </div>
+                  </div>
+                  <button class="btn-primary-custom">Enregistrer</button>
+                </div>
+
+                <!-- Tab : Préférences -->
+                <div id="tab-prefs" class="profile-tab-content" style="display:none">
+                  <div class="form-group">
+                    <label class="form-label">Je suis disponible en tant que</label>
+                    <select class="form-select-custom">
+                      <option>Mentoré (je cherche de l'aide)</option>
+                      <option>Mentor (je donne de l'aide)</option>
+                      <option>Les deux</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Mode de séance préféré</label>
+                    <select class="form-select-custom">
+                      <option>En ligne</option>
+                      <option>En présentiel</option>
+                      <option>Les deux</option>
+                    </select>
+                  </div>
+                  <button class="btn-primary-custom mt-2">Enregistrer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Résumé profil -->
+          <div class="col-md-4">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div class="section-title">Résumé</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px">
+                    <span style="color:var(--gray-500)">Filière</span>
+                    <span style="font-weight:700">IA</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px">
+                    <span style="color:var(--gray-500)">Niveau</span>
+                    <span style="font-weight:700">L2</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px">
+                    <span style="color:var(--gray-500)">Rôle</span>
+                    <span style="font-weight:700">Mentoré</span>
+                  </div>
+                  <div class="divider"></div>
+                  <div style="font-size:12px;color:var(--gray-500);font-weight:700">Compétences</div>
+                  <div class="d-flex flex-wrap gap-1">
+                    <span class="tag">Python</span>
+                    <span class="tag">Réseaux</span>
+                    <span class="tag">Linux</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--gray-500);font-weight:700;margin-top:4px">Difficultés</div>
+                  <div class="d-flex flex-wrap gap-1">
+                    <span class="tag" style="background:#FEF2F2;color:var(--danger)">Maths avancées</span>
+                    <span class="tag" style="background:#FEF2F2;color:var(--danger)">Statistiques</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : OFFRES / DEMANDES ===== -->
+    <div class="page" id="page-offers">
+      <div class="page-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="section-title" style="margin-bottom:0">Mes offres / demandes</div>
+          <button class="btn-primary-custom"><i class="fa-solid fa-plus"></i> Nouvelle offre</button>
+        </div>
+        <div class="d-flex flex-column gap-3">
+          <div class="card-custom">
+            <div class="card-body-custom d-flex align-items-center gap-3">
+              <div class="stat-icon blue"><i class="fa-solid fa-book"></i></div>
+              <div style="flex:1">
+                <div style="font-weight:800;color:var(--dark)">Aide en Mathématiques avancées</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px">Algèbre, Analyse · L2 IA · Publié il y a 2 jours</div>
+              </div>
+              <span class="badge-status pending">En attente</span>
+              <button class="btn-outline-custom" style="padding:5px 12px;font-size:12px">Modifier</button>
+            </div>
+          </div>
+          <div class="card-custom">
+            <div class="card-body-custom d-flex align-items-center gap-3">
+              <div class="stat-icon green"><i class="fa-solid fa-chart-bar"></i></div>
+              <div style="flex:1">
+                <div style="font-weight:800;color:var(--dark)">Cours de Statistiques</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px">Probabilités, Stats · L2 IA · Publié il y a 5 jours</div>
+              </div>
+              <span class="badge-status accepted">Accepté</span>
+              <button class="btn-outline-custom" style="padding:5px 12px;font-size:12px">Voir</button>
+            </div>
+          </div>
+          <div class="card-custom">
+            <div class="card-body-custom d-flex align-items-center gap-3">
+              <div class="stat-icon purple"><i class="fa-solid fa-code"></i></div>
+              <div style="flex:1">
+                <div style="font-weight:800;color:var(--dark)">Offre : Python pour débutants</div>
+                <div style="font-size:12px;color:var(--gray-500);margin-top:2px">Je peux aider en Python · Publié il y a 1 semaine</div>
+              </div>
+              <span class="badge-status accepted">Actif</span>
+              <button class="btn-outline-custom" style="padding:5px 12px;font-size:12px">Voir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : CORRESPONDANCES ===== -->
+    <div class="page" id="page-correspondances">
+      <div class="page-content">
+        <div class="section-title">Mes correspondances</div>
+        <div class="d-flex flex-column gap-3">
+          <div class="mentor-card">
+            <div class="mentor-avatar-lg">SD</div>
+            <div class="mentor-info">
+              <div class="mentor-name">Sophie Dossou</div>
+              <div class="mentor-meta">Mentor · L3 · IA</div>
+              <div class="mentor-tags"><span class="tag">Mathématiques</span><span class="tag">Python</span></div>
+              <div class="dispo-text"><i class="fa-solid fa-check" style="color:var(--success)"></i> Correspondance acceptée</div>
+            </div>
+            <div class="mentor-actions">
+              <button class="btn-primary-custom" style="padding:7px 14px;font-size:12px" onclick="showPage('page-messages')">Message</button>
+              <button class="btn-outline-custom" style="padding:5px 14px;font-size:12px" onclick="showPage('page-mentor-profile')">Profil</button>
+            </div>
+          </div>
+          <div class="mentor-card">
+            <div class="mentor-avatar-lg" style="background:linear-gradient(135deg,#10B981,#059669)">AT</div>
+            <div class="mentor-info">
+              <div class="mentor-name">Arnaud Tchibozo</div>
+              <div class="mentor-meta">Mentor · L3 · GL</div>
+              <div class="mentor-tags"><span class="tag">Algorithmique</span><span class="tag purple">C++</span></div>
+              <div class="dispo-text"><i class="fa-regular fa-clock" style="color:var(--warning)"></i> En attente de réponse</div>
+            </div>
+            <div class="mentor-actions">
+              <button class="btn-outline-custom" style="padding:5px 14px;font-size:12px;color:var(--danger);border-color:var(--danger)">Annuler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE : PARAMÈTRES ===== -->
+    <div class="page" id="page-settings">
+      <div class="page-content">
+        <div class="section-title">Paramètres</div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div style="font-weight:800;color:var(--dark);margin-bottom:16px">Notifications</div>
+                <div class="d-flex flex-column gap-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <div style="font-weight:700;font-size:14px">Nouveaux messages</div>
+                      <div style="font-size:12px;color:var(--gray-500)">Recevoir une notification pour chaque message</div>
+                    </div>
+                    <div style="width:44px;height:24px;background:var(--primary);border-radius:12px;position:relative;cursor:pointer">
+                      <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;right:3px;top:3px;transition:.2s"></div>
+                    </div>
+                  </div>
+                  <div class="divider" style="margin:4px 0"></div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <div style="font-weight:700;font-size:14px">Nouvelles demandes</div>
+                      <div style="font-size:12px;color:var(--gray-500)">Alertes pour les nouvelles correspondances</div>
+                    </div>
+                    <div style="width:44px;height:24px;background:var(--primary);border-radius:12px;position:relative;cursor:pointer">
+                      <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;right:3px;top:3px"></div>
+                    </div>
+                  </div>
+                  <div class="divider" style="margin:4px 0"></div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <div style="font-weight:700;font-size:14px">Emails</div>
+                      <div style="font-size:12px;color:var(--gray-500)">Recevoir des emails de résumé</div>
+                    </div>
+                    <div style="width:44px;height:24px;background:var(--gray-300);border-radius:12px;position:relative;cursor:pointer">
+                      <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;left:3px;top:3px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card-custom">
+              <div class="card-body-custom">
+                <div style="font-weight:800;color:var(--dark);margin-bottom:16px">Sécurité</div>
+                <div class="form-group">
+                  <label class="form-label">Mot de passe actuel</label>
+                  <input type="password" class="form-control-custom" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nouveau mot de passe</label>
+                  <input type="password" class="form-control-custom" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirmer le nouveau mot de passe</label>
+                  <input type="password" class="form-control-custom" placeholder="••••••••">
+                </div>
+                <button class="btn-primary-custom">Mettre à jour</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main-content -->
+</div><!-- end app-section -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
