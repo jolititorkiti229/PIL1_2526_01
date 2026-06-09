@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tableau de bord — IFRI_MentorLink</title>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/app.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main-content">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-title">Tableau de bord</div>
+      <div class="topbar-actions">
+        <button class="topbar-icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <div class="avatar-btn">
+         <a href="profile.html"><img src="https://i.pravatar.cc/80?img=47" alt="Avatar"/></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="greeting">Bonjour Sophie 👋</p>
+    <p class="sub-greeting">Voici un aperçu de votre activité.</p>
+
+    <!-- STATS -->
+    <div class="grid-4 mt-20">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Offres publiées</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Demandes envoyées</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon pink">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div>
+          <div class="stat-value">5</div>
+          <div class="stat-label">Correspondances</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Messages non lus</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM GRID -->
+    <div class="dash-grid mt-24">
+      <!-- RECENT ACTIVITY -->
+      <div class="card">
+        <div class="card-header flex-between mb-16">
+          <h3 class="card-title">Activité récente</h3>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="act-icon act-msg">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div class="act-content">
+              <p class="act-text">Nouvelle correspondance<br><strong>avec Marie K.</strong></p>
+            </div>
+            <span class="act-time">il y a 2 heures</span>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon act-msg2">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div class="act-content">
+              <p class="act-text">Nouveau message <strong>de Jean F.</strong></p>
+            </div>
+            <span class="act-time">il y a 5 heures</span>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon act-check">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="act-content">
+              <p class="act-text">Votre demande en <strong>Mathématiques<br>a été acceptée.</strong></p>
+            </div>
+            <span class="act-time">il y a 1 jour</span>
+          </div>
+        </div>
+        <button class="btn-see-all">Voir toutes les activités</button>
+      </div>
+
+      <!-- SUGGESTIONS -->
+      <div class="card">
+        <div class="card-header flex-between mb-16">
+          <h3 class="card-title">Suggestions pour vous</h3>
+        </div>
+        <div class="suggestion-list">
+          <div class="suggestion-item">
+            <img src="https://i.pravatar.cc/40?img=12" alt="" class="avatar avatar-sm"/>
+            <div class="sug-info">
+              <div class="sug-name">Arnaud T.</div>
+              <div class="sug-detail">Développement Web • L2</div>
+              <div class="sug-compat">Compatibilité : 89%</div>
+            </div>
+            <a href="mentor-profile.html" class="btn btn-primary btn-sm">Voir profil</a>
+          </div>
+          <div class="suggestion-item">
+            <img src="https://i.pravatar.cc/40?img=47" alt="" class="avatar avatar-sm"/>
+            <div class="sug-info">
+              <div class="sug-name">Marie Kakaï</div>
+              <div class="sug-detail">Mathématiques • L3</div>
+              <div class="sug-compat">Compatibilité : 82%</div>
+            </div>
+            <a href="mentor-profile.html" class="btn btn-primary btn-sm">Voir profil</a>
+          </div>
+          <div class="suggestion-item">
+            <img src="https://i.pravatar.cc/40?img=33" alt="" class="avatar avatar-sm"/>
+            <div class="sug-info">
+              <div class="sug-name">Daniël M.</div>
+              <div class="sug-detail">Réseaux • L2</div>
+              <div class="sug-compat">Compatibilité : 67.8%</div>
+            </div>
+            <a href="mentor-profile.html" class="btn btn-primary btn-sm">Voir profil</a>
+          </div>
+        </div>
+        <button class="btn-see-all">Voir toutes les suggestions</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script>renderSidebar('dashboard');</script>
+</body>
+</html>

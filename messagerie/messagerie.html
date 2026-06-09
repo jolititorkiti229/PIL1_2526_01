@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messagerie — IFRI MentorLink</title>
+
+    <!--
+        On charge Socket.IO côté client
+        Cette bibliothèque JavaScript permet au navigateur
+        de parler avec notre serveur Flask-SocketIO
+        La version doit correspondre à celle installée côté serveur
+    -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!--
+        Notre fichier JavaScript personnel
+        Il sera chargé EN FIN DE PAGE pour s'assurer
+        que tout le HTML est chargé avant que le JS s'exécute
+    -->
+</head>
+<body>
+
+    <!--
+        CONTENEUR PRINCIPAL
+        Il englobe toute l'interface de messagerie
+        Le Membre 7 ajoutera les classes Bootstrap ici
+    -->
+    <div id="messagerie-container">
+
+        <!-- ================================================
+             COLONNE GAUCHE — Liste des conversations
+        ================================================ -->
+        <div id="liste-conversations">
+
+            <!-- Titre de la colonne -->
+            <div id="entete-conversations">
+                <h2>Messagerie</h2>
+
+                <!-- Champ de recherche dans les conversations -->
+                <input
+                    type="text"
+                    id="recherche-conversation"
+                    placeholder="Rechercher une conversation..."
+                >
+            </div>
+
+            <!--
+                La liste des conversations sera injectée ici par JavaScript
+                data-conv-id : attribut personnalisé qu'on utilisera en JS
+                pour savoir sur quelle conversation l'utilisateur a cliqué
+                Jinja2 boucle sur les conversations passées par Flask
+            -->
+            <div id="conversations-liste">
+                {% for conv in conversations %}
+                    <!--
+                        Chaque conversation est un bloc cliquable
+                        data-conv-id stocke l'ID de la conversation
+                        JavaScript lira cet attribut au clic
+                    -->
+                    <div class="conversation-item"
+                         data-conv-id="{{ conv.id }}">
+
+                        <!-- Photo de profil de l'interlocuteur -->
+                        <!-- Pour l'instant un placeholder, le Membre 3 fournira les vraies photos -->
+                        <div class="avatar-placeholder">
+                            {{ conv.user2_id }}
+                        </div>
+
+                        <div class="conversation-info">
+                            <!-- Nom de l'interlocuteur -->
+                            <!-- user_id sera remplacé par le vrai nom lors de l'intégration -->
+                            <span class="nom-interlocuteur">
+                                Utilisateur {{ conv.user2_id }}
+                            </span>
+
+                            <!-- Aperçu du dernier message -->
+                            <span class="apercu-message">
+                                Cliquer pour voir les messages
+                            </span>
+                        </div>
+
+                        <!--
+                            Badge pour les messages non lus
+                            Il sera affiché ou masqué par JavaScript
+                            selon le nombre de messages non lus
+                        -->
+                        <span class="badge-non-lus" id="badge-{{ conv.id }}">
+                        </span>
+
+                    </div>
+                {% else %}
+                    <!-- Affiché si la liste conversations est vide -->
+                    <p id="aucune-conversation">
+                        Aucune conversation pour le moment.
+                    </p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+        <!-- ================================================
+             COLONNE DROITE — Zone de chat
+        ================================================ -->
+        <div id="zone-chat">
+
+            <!--
+                ÉTAT INITIAL : aucune conversation sélectionnée
+                Affiché quand l'utilisateur n'a pas encore cliqué
+                sur une conversation
+                JavaScript le masquera dès qu'une conversation est ouverte
+            -->
+            <div id="etat-vide">
+                <p>Sélectionnez une conversation pour afficher les messages.</p>
+            </div>
+
+
+            <!--
+                ZONE ACTIVE : affichée quand une conversation est sélectionnée
+                Masquée par défaut, JavaScript l'affichera au bon moment
+            -->
+            <div id="zone-chat-active" style="display: none;">
+
+                <!-- En-tête de la conversation active -->
+                <div id="entete-chat">
+
+                    <!-- Nom de l'interlocuteur actif -->
+                    <!-- Mis à jour par JavaScript à chaque changement de conversation -->
+                    <span id="nom-interlocuteur-actif">
+                        Chargement...
+                    </span>
+
+                    <!-- Indicateur de statut en ligne -->
+                    <span id="statut-interlocuteur">
+                        En ligne
+                    </span>
+
+                </div>
+
+
+                <!--
+                    ZONE DES MESSAGES
+                    C'est ici que JavaScript injectera les messages
+                    overflow-y: auto permettra le défilement
+                    scroll-bottom : JavaScript fera défiler vers le bas
+                    automatiquement à chaque nouveau message
+                -->
+                <div id="zone-messages">
+                    <!--
+                        Les messages seront injectés ici dynamiquement
+                        par JavaScript. Exemple de ce que JS créera :
+
+                        <div class="message message-moi">
+                            <span class="contenu-message">Salut !</span>
+                            <span class="heure-message">14:35</span>
+                        </div>
+
+                        <div class="message message-autre">
+                            <span class="contenu-message">Bonjour !</span>
+                            <span class="heure-message">14:36</span>
+                        </div>
+                    -->
+                </div>
+
+
+                <!-- Zone de saisie du message -->
+                <div id="zone-saisie">
+
+                    <!--
+                        Champ de texte pour écrire le message
+                        id="input-message" : JavaScript lira sa valeur à l'envoi
+                        placeholder : texte affiché quand le champ est vide
+                    -->
+                    <input
+                        type="text"
+                        id="input-message"
+                        placeholder="Écrire un message..."
+                        autocomplete="off"
+                    >
+
+                    <!--
+                        Bouton d'envoi
+                        id="btn-envoyer" : JavaScript écoutera le clic sur ce bouton
+                    -->
+                    <button id="btn-envoyer">
+                        Envoyer
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!--
+        DONNÉES INJECTÉES PAR FLASK
+        On passe l'ID de l'utilisateur connecté à JavaScript
+        via un attribut data sur le body
+        JavaScript lira cette valeur pour savoir qui est connecté
+        Sans ça, JavaScript ne saurait pas qui envoie les messages
+    -->
+    <div id="donnees-utilisateur"
+         data-user-id="{{ session.get('user_id', 1) }}"
+         style="display: none;">
+    </div>
+
+
+    <!--
+        On charge notre JavaScript EN BAS de page
+        Règle importante : le JS doit être chargé après le HTML
+        pour que les getElementById() trouvent bien les éléments
+    -->
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
+</body>
+</html>
