@@ -1,1 +1,0 @@
-from .mentorat import mentorat_bp
