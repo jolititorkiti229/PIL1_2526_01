@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord - IFRI_MentorLink{% endblock %}
+{% block body %}
+<div class="app-layout">
+  {% include "sidebar.html" %}
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>Tableau de bord</h1>
+        <p class="text-muted mt-8">Bonjour {{ user.prenom }} 👋 Voici un aperçu de votre activité.</p>
+      </div>
+      <div class="header-actions">
+        <a href="{{ url_for('notifications') }}" class="header-notif">
+          <i class="fas fa-bell"></i> {% if unread_notifications > 0 %}<span class="dot"></span>{% endif %}
+        </a>
+        <div class="avatar avatar-initials">{{ user.prenom[0] }}{{ user.nom[0] }}</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div>
+        <div class="stat-info">
+          <div class="value">{{ stats.offres }}</div>
+          <div class="label">Offres publiées</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon pink"><i class="fas fa-paper-plane"></i></div>
+        <div class="stat-info">
+          <div class="value">{{ stats.demandes }}</div>
+          <div class="label">Demandes envoyées</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon teal"><i class="fas fa-handshake"></i></div>
+        <div class="stat-info">
+          <div class="value">{{ stats.correspondances }}</div>
+          <div class="label">Correspondances</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-comment-dots"></i></div>
+        <div class="stat-info">
+          <div class="value">{{ unread_messages }}</div>
+          <div class="label">Messages non lus</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- Activité récente -->
+      <div class="card">
+        <div class="section-title">
+          <i class="fas fa-calendar-alt"></i> Activité récente
+          <a href="#" class="title-action">Voir toutes les activités</a>
+        </div>
+        {% if activites %}
+          {% for act in activites %}
+          <div class="notif-item">
+            <div class="notif-icon {{ act.couleur }}">{{ act.icon }}</div>
+            <div>
+              <div class="fw-600" style="font-size:0.9rem;">{{ act.contenu }}</div>
+              <div class="notif-time">{{ act.temps }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center" style="padding:20px 0;">Aucune activité récente</p>
+        {% endif %}
+      </div>
+
+      <!-- Suggestions matching -->
+      <div class="card">
+        <div class="section-title">
+          <i class="fas fa-star"></i> Suggestions pour vous
+          <a href="{{ url_for('recherche') }}" class="title-action">Voir toutes les suggestions</a>
+        </div>
+        {% if suggestions %}
+          {% for s in suggestions %}
+          <div class="mentor-card" style="margin-bottom:12px;">
+            <div class="avatar avatar-initials" style="width:44px;height:44px;font-size:0.85rem;flex-shrink:0;">{{ s.prenom[0] }}{{ s.nom[0] }}</div>
+            <div class="mentor-info">
+              <div class="mentor-name">{{ s.prenom }} {{ s.nom }}</div>
+              <div class="mentor-meta">{{ s.filiere }} · {{ s.niveau }}</div>
+              <div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;">Compatibilité : {{ s.score }}%</div>
+              <div class="compat-bar mt-8"><div class="compat-fill" style="width:{{ s.score }}%"></div></div>
+            </div>
+            <a href="{{ url_for('profil_user', user_id=s.id) }}" class="btn btn-outline btn-sm">Voir profil</a>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center" style="padding:20px 0;">Complétez votre profil pour recevoir des suggestions</p>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

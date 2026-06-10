@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechercher un mentor — IFRI_MentorLink</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .search-filters { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; margin-bottom: 24px; }
+    .filters-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+    .mentors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+    .mentor-card { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; transition: all var(--transition); }
+    .mentor-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary-light); }
+    .comp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .dispo-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .dispo-chip { font-size: 11px; padding: 3px 8px; background: var(--border-light); border-radius: 10px; color: var(--text-muted); font-weight: 500; }
+    .score-ring { text-align: center; }
+    .score-ring .score-num { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; }
+    .result-count { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; font-weight: 500; }
+    @media(max-width:768px) { .filters-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-placeholder"></div>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h3 style="font-family:'Plus Jakarta Sans';font-weight:700">Rechercher un mentor</h3>
+        <p class="text-sm text-muted">Trouvez le mentor qui correspond à vos besoins.</p>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <!-- Filtres -->
+      <div class="search-filters">
+        <div class="filters-row">
+          <div class="form-group">
+            <label class="form-label">Matière</label>
+            <select id="f-matiere" class="form-control">
+              <option value="">Toutes les matières</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Filière</label>
+            <select id="f-filiere" class="form-control">
+              <option value="">Toutes les filières</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau</label>
+            <select id="f-niveau" class="form-control">
+              <option value="">Tous les niveaux</option>
+              <option value="Licence1">Licence 1</option>
+              <option value="Licence2">Licence 2</option>
+              <option value="Licence3">Licence 3</option>
+              <option value="Master1">Master 1</option>
+              <option value="Master2">Master 2</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Disponibilité</label>
+            <select id="f-dispo" class="form-control">
+              <option value="">Toutes</option>
+              <option value="Lundi">Lundi</option>
+              <option value="Mardi">Mardi</option>
+              <option value="Mercredi">Mercredi</option>
+              <option value="Jeudi">Jeudi</option>
+              <option value="Vendredi">Vendredi</option>
+              <option value="Samedi">Samedi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">&nbsp;</label>
+            <button onclick="rechercher()" class="btn btn-primary">🔍 Rechercher</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="result-count" class="result-count"></div>
+      <div id="mentors-grid" class="mentors-grid">
+        <div class="loading-center" style="grid-column:1/-1;padding:60px"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+  injectSidebar();
+
+  async function loadFilters() {
+    await initSidebar();
+    const [mats, fils] = await Promise.all([api('/auth/matieres'), api('/auth/filieres')]);
+    const mSel = document.getElementById('f-matiere');
+    const fSel = document.getElementById('f-filiere');
+    mats.forEach(m => mSel.innerHTML += `<option value="${m.id}">${m.nom}</option>`);
+    fils.forEach(f => fSel.innerHTML += `<option value="${f.nom}">${f.nom}</option>`);
+  }
+
+  async function rechercher() {
+    const grid = document.getElementById('mentors-grid');
+    const countEl = document.getElementById('result-count');
+    grid.innerHTML = '<div class="loading-center" style="grid-column:1/-1;padding:60px"><div class="spinner"></div></div>';
+    countEl.textContent = '';
+
+    const params = new URLSearchParams();
+    const mat = document.getElementById('f-matiere').value;
+    const fil = document.getElementById('f-filiere').value;
+    const niv = document.getElementById('f-niveau').value;
+    const dispo = document.getElementById('f-dispo').value;
+    if (mat) params.set('matiere_id', mat);
+    if (fil) params.set('filiere', fil);
+    if (niv) params.set('niveau', niv);
+    if (dispo) params.set('disponibilite', dispo);
+    params.set('limit', '20');
+    params.set('role', 'mentore');
+
+    try {
+      const results = await api(`/matching/suggestions?${params}`);
+      countEl.textContent = `${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''}`;
+
+      if (!results.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1">${emptyState('🔍', 'Aucun mentor trouvé', 'Essayez d\'élargir vos critères de recherche ou complétez votre profil.')}</div>`;
+        return;
+      }
+
+      grid.innerHTML = results.map(m => `
+        <div class="mentor-card">
+          <div class="flex gap-12 items-center mb-16">
+            ${renderAvatar(m, 'md')}
+            <div style="flex:1;overflow:hidden">
+              <div style="font-weight:700;font-size:15px">${m.prenom} ${m.nom}</div>
+              <div class="text-muted text-sm">${m.filiere} • ${m.niveau?.replace('Licence','L').replace('Master','M')}</div>
+              ${m.note_moy ? `<div class="stars">${renderStars(m.note_moy)}</div>` : ''}
+            </div>
+            <div class="score-ring">
+              <div class="score-num" style="color:${m.score>=70?'var(--success)':m.score>=50?'var(--warning)':'var(--text-muted)'}">${m.score}%</div>
+              <div class="text-sm text-muted">Compatibilité</div>
+            </div>
+          </div>
+
+          ${renderScoreBar(m.score)}
+
+          <div class="comp-tags mt-12">
+            ${m.competences?.filter(c=>c.type==='fort').map(c=>`<span class="badge badge-success">✅ ${c.matiere}</span>`).join('')}
+            ${m.competences?.filter(c=>c.type==='faible').map(c=>`<span class="badge badge-danger">❓ ${c.matiere}</span>`).join('')}
+          </div>
+
+          ${m.disponibilites?.length ? `
+          <div class="mt-12">
+            <div class="text-sm text-muted font-semibold mb-4">Disponibilités</div>
+            <div class="dispo-chips">
+              ${m.disponibilites.map(d=>`<span class="dispo-chip">${d.jour} ${String(d.heure_debut).substring(0,5)}–${String(d.heure_fin).substring(0,5)}</span>`).join('')}
+            </div>
+          </div>` : ''}
+
+          <div class="flex gap-8 mt-16">
+            <a href="/pages/profile-view.html?id=${m.id}" class="btn btn-secondary btn-sm" style="flex:1;text-align:center">Voir profil</a>
+            <button onclick="contacter(${m.id})" class="btn btn-primary btn-sm" style="flex:1">💬 Contacter</button>
+          </div>
+        </div>`).join('');
+    } catch (err) {
+      grid.innerHTML = `<div style="grid-column:1/-1">${emptyState('⚠️', 'Erreur', err.message)}</div>`;
+    }
+  }
+
+  async function contacter(userId) {
+    try {
+      const { conversation_id } = await api(`/messages/conversations/start/${userId}`, { method: 'POST' });
+      window.location.href = `/pages/messagerie.html?conv=${conversation_id}`;
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  loadFilters().then(() => rechercher());
+</script>
+</body>
+</html>

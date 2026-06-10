@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Mes offres / demandes - IFRI_MentorLink{% endblock %}
+{% block body %}
+<div class="app-layout">
+  {% include "sidebar.html" %}
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>Mes offres / demandes</h1>
+        <p class="text-muted mt-8">Gérez vos offres et demandes de mentorat.</p>
+      </div>
+      <div class="header-actions">
+        <a href="{{ url_for('notifications') }}" class="header-notif"> <i class="fas fa-bell"></i>{% if unread_notifications > 0 %}<span class="dot"></span>{% endif %}</a>
+        <div class="avatar avatar-initials">{{ user.prenom[0] }}{{ user.nom[0] }}</div>
+        <button class="btn btn-primary" onclick="document.getElementById('modalOffre').classList.add('open')">+ Créer une nouvelle offre</button>
+      </div>
+    </div>
+
+    <!-- Onglets -->
+    <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border);">
+      <button class="tab-btn active" data-tab="offres" onclick="switchTab('offres',this)" style="padding:12px 24px;background:none;border:none;font-family:'Sora',sans-serif;font-weight:600;font-size:0.92rem;cursor:pointer;color:var(--primary);border-bottom:2px solid var(--primary);margin-bottom:-2px;">Offres publiées</button>
+      <button class="tab-btn" data-tab="demandes" onclick="switchTab('demandes',this)" style="padding:12px 24px;background:none;border:none;font-family:'Sora',sans-serif;font-weight:600;font-size:0.92rem;cursor:pointer;color:var(--text-muted);">Demandes envoyées</button>
+    </div>
+
+    <!-- Offres -->
+    <div id="tab-offres">
+      {% if offres %}
+      <table class="table" style="background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+        <thead><tr>
+          <th>Titre / Matière</th><th>Public cible</th><th>Format</th><th>Statut</th><th>Date</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          {% for o in offres %}
+          <tr>
+            <td><div class="fw-600">{{ o.matiere }}</div><div class="text-muted">{{ o.description[:60] if o.description else '—' }}{% if o.description and o.description|length > 60 %}...{% endif %}</div></td>
+            <td><span class="badge badge-info">{{ o.public or 'Tous' }}</span></td>
+            <td>{{ o.format }}</td>
+            <td>
+              {% if o.statut == 'ouverte' %}<span class="badge badge-success">Acceptée</span>
+              {% elif o.statut == 'en_cours' %}<span class="badge badge-warning">En cours</span>
+              {% elif o.statut == 'terminee' %}<span class="badge badge-primary">Terminée</span>
+              {% else %}<span class="badge badge-danger">Annulée</span>{% endif %}
+            </td>
+            <td class="text-muted">{{ o.date_creation.strftime('%d/%m/%Y') }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('supprimer_mentorat', mentorat_id=o.id) }}" onsubmit="return confirm('Supprimer cette offre ?')">
+                <button type="submit" class="btn btn-sm" style="color:var(--danger);background:rgba(239,68,68,0.08);">🗑</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="card text-center" style="padding:48px;">
+        <div style="font-size:3rem;margin-bottom:12px;"><i class="fas fa-clipboard-list" style="color:var(--primary);"></i></div>
+        <h3>Aucune offre publiée</h3>
+        <p class="text-muted mt-8">Créez votre première offre de mentorat !</p>
+        <button class="btn btn-primary mt-16" onclick="document.getElementById('modalOffre').classList.add('open')">+ Créer une offre</button>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Demandes -->
+    <div id="tab-demandes" style="display:none;">
+      {% if demandes %}
+      <table class="table" style="background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+        <thead><tr>
+          <th>Matière</th><th>Format</th><th>Statut</th><th>Date</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          {% for d in demandes %}
+          <tr>
+            <td class="fw-600">{{ d.matiere }}</td>
+            <td>{{ d.format }}</td>
+            <td>
+              {% if d.statut == 'ouverte' %}<span class="badge badge-warning">En attente</span>
+              {% elif d.statut == 'en_cours' %}<span class="badge badge-info">En cours</span>
+              {% elif d.statut == 'terminee' %}<span class="badge badge-success">Terminée</span>
+              {% else %}<span class="badge badge-danger">Refusée</span>{% endif %}
+            </td>
+            <td class="text-muted">{{ d.date_creation.strftime('%d/%m/%Y') }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('supprimer_mentorat', mentorat_id=d.id) }}" onsubmit="return confirm('Supprimer cette demande ?')">
+                <button type="submit" class="btn btn-sm" style="color:var(--danger);background:rgba(239,68,68,0.08);">🗑</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="card text-center" style="padding:48px;">
+        <div style="font-size:3rem;margin-bottom:12px;"><i class="fas fa-paper-plane" style="color:var(--primary);"></i></div>
+        <h3>Aucune demande</h3>
+        <p class="text-muted mt-8">Recherchez un mentor et envoyez une demande.</p>
+        <a href="{{ url_for('recherche') }}" class="btn btn-primary mt-16"><i class="fas fa-magnifying-glass"></i> Rechercher un mentor</a>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+
+<!-- Modal créer offre/demande -->
+<div class="modal-overlay" id="modalOffre">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <div class="modal-title">Créer une offre / demande</div>
+      <button class="modal-close" onclick="document.getElementById('modalOffre').classList.remove('open')">✕</button>
+    </div>
+    <form method="POST" action="{{ url_for('creer_mentorat') }}">
+      <div class="form-group">
+        <label>Type</label>
+        <select name="type" class="form-control" required>
+          <option value="offre">Offre (je propose du mentorat)</option>
+          <option value="demande">Demande (je cherche un mentor)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Matière</label>
+        <select name="matiere_id" class="form-control" required>
+          {% for m in matieres %}
+          <option value="{{ m.id }}">{{ m.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Décrivez votre offre ou ce que vous recherchez..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Format</label>
+        <select name="format" class="form-control" required>
+          <option value="presentiel">Présentiel</option>
+          <option value="ligne">En ligne</option>
+          <option value="hybride">Hybride</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px;">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('modalOffre').classList.remove('open')">Annuler</button>
+        <button type="submit" class="btn btn-primary">Publier</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+  document.getElementById('tab-' + tab).style.display = '';
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.style.color = 'var(--text-muted)'; b.style.borderBottom = 'none';
+  });
+  btn.style.color = 'var(--primary)'; btn.style.borderBottom = '2px solid var(--primary)'; btn.style.marginBottom = '-2px';
+}
+</script>
+{% endblock %}

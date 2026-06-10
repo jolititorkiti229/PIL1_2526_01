@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Profil de {{ mentor.prenom }} {{ mentor.nom }} - IFRI_MentorLink{% endblock %}
+{% block body %}
+<div class="app-layout">
+  {% include "sidebar.html" %}
+  <main class="main-content">
+    <div class="page-header">
+      <a href="javascript:history.back()" class="btn btn-outline btn-sm">← Retour</a>
+      <div class="header-actions">
+        <a href="{{ url_for('notifications') }}" class="header-notif">
+  <i class="fas fa-bell"></i>{% if unread_notifications > 0 %}<span class="dot"></span>{% endif %}</a>
+        <div class="avatar avatar-initials">{{ user.prenom[0] }}{{ user.nom[0] }}</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:320px 1fr;gap:24px;">
+      <!-- Colonne gauche -->
+      <div>
+        <div class="card text-center mb-16">
+          <div class="avatar-xl avatar-initials flex-center" style="margin:0 auto 16px;font-size:1.8rem;">{{ mentor.prenom[0] }}{{ mentor.nom[0] }}</div>
+          <h2 style="font-size:1.2rem;font-weight:700;">{{ mentor.prenom }} {{ mentor.nom }}</h2>
+          <div class="text-muted mt-8">{{ mentor.filiere }} · {{ mentor.niveau }}</div>
+          {% if avis_moyen %}
+          <div class="stars mt-8">★★★★★ <span style="color:var(--text);font-weight:700;">{{ "%.1f"|format(avis_moyen) }}</span> <span class="text-muted">({{ nb_avis }} avis)</span></div>
+          {% endif %}
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">
+            <a href="{{ url_for('contacter', user_id=mentor.id) }}" class="btn btn-primary btn-sm"><i class="fas fa-comment-dots"></i> Contacter</a>
+            <form method="POST" action="{{ url_for('creer_demande', mentor_id=mentor.id) }}">
+              <button type="submit" class="btn btn-outline btn-sm">+ Demander mentorat</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-16">
+          <div class="section-title"><i class="fas fa-clipboard-list"></i> Informations</div>
+          <div style="font-size:0.87rem;">
+            <div class="flex-between" style="padding:7px 0;border-bottom:1px solid var(--border);">
+              <span class="text-muted">Filière</span><span class="fw-600">{{ mentor.filiere }}</span>
+            </div>
+            <div class="flex-between" style="padding:7px 0;border-bottom:1px solid var(--border);">
+              <span class="text-muted">Niveau</span><span class="fw-600">{{ mentor.niveau }}</span>
+            </div>
+            <div class="flex-between" style="padding:7px 0;border-bottom:1px solid var(--border);">
+              <span class="text-muted">Email</span><span class="fw-600">{{ mentor.email }}</span>
+            </div>
+            <div class="flex-between" style="padding:7px 0;">
+              <span class="text-muted">Téléphone</span><span class="fw-600">{{ mentor.telephone }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-16">
+          <div class="section-title"><i class="fas fa-calendar-alt"></i> Disponibilités</div>
+          {% if disponibilites %}
+            {% for d in disponibilites %}
+            <div class="flex-between" style="padding:6px 0;border-bottom:1px solid var(--border);font-size:0.85rem;">
+              <span class="fw-600">{{ d.jour }}</span>
+              <span class="text-muted">{{ d.heure_debut }} - {{ d.heure_fin }}</span>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted" style="font-size:0.85rem;">Non renseigné</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div>
+        {% if mentor.bio %}
+        <div class="card mb-16">
+          <div class="section-title"><i class="fas fa-comment-dots"></i> À propos</div>
+          <p style="font-size:0.92rem;line-height:1.7;color:var(--text);">{{ mentor.bio }}</p>
+        </div>
+        {% endif %}
+
+        <div class="card mb-16">
+          <div class="section-title"><i class="fas fa-bolt" style="color:#F59E0B;"></i> Compétences</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            {% for c in forts %}
+            <span class="tag">{{ c }}</span>
+            {% endfor %}
+            {% if not forts %}<p class="text-muted" style="font-size:0.85rem;">Aucune compétence renseignée</p>{% endif %}
+          </div>
+        </div>
+
+        {% if score_compat %}
+        <div class="card mb-16">
+          <div class="section-title"><i class="fas fa-bullseye" style="color:#6366F1;"></i> Score de compatibilité</div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary);">{{ score_compat }}%</div>
+            <div style="flex:1;">
+              <div class="compat-bar" style="height:12px;"><div class="compat-fill" style="width:{{ score_compat }}%"></div></div>
+              <div class="text-muted mt-8" style="font-size:0.82rem;">Basé sur vos compétences, disponibilités et filières</div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+          <div class="section-title"><i class="fas fa-star" style="color:#F59E0B;"></i> Avis des étudiants</div>
+          {% if avis_list %}
+            {% for av in avis_list %}
+            <div style="padding:14px 0;border-bottom:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <span class="fw-600" style="font-size:0.9rem;">{{ av.auteur }}</span>
+                <span class="stars">{{ '★' * av.note }}{{ '☆' * (5 - av.note) }}</span>
+              </div>
+              {% if av.commentaire %}<p style="font-size:0.87rem;color:var(--text-muted);">{{ av.commentaire }}</p>{% endif %}
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted" style="font-size:0.85rem;">Aucun avis pour le moment</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

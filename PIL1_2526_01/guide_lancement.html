@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide de lancement — IFRI_MentorLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #5C3FE4;
+      --primary-light: #EEE9FD;
+      --green: #10B981;
+      --green-light: #D1FAE5;
+      --orange: #F59E0B;
+      --orange-light: #FEF3C7;
+      --red: #EF4444;
+      --red-light: #FEE2E2;
+      --blue: #3B82F6;
+      --blue-light: #DBEAFE;
+      --text: #1A1A2E;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --bg: #F8F7FF;
+      --white: #FFFFFF;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(92,63,228,0.08);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #3D24B8, var(--primary), #7B62F0);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      top: -150px; right: -100px;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      bottom: -100px; left: -80px;
+    }
+    .header-content { position: relative; z-index: 1; }
+    .logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .logo-icon {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+    }
+    .logo span { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 1.3rem; }
+    header h1 { font-family: 'Sora', sans-serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    header p { opacity: 0.85; font-size: 1rem; max-width: 500px; margin: 0 auto; }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    /* LAYOUT */
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* PROGRESS */
+    .progress-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 48px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .progress-step {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .progress-step:last-child { border-right: none; }
+    .progress-step .num {
+      display: block;
+      width: 24px; height: 24px;
+      background: var(--border);
+      border-radius: 50%;
+      margin: 0 auto 6px;
+      line-height: 24px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .progress-step.done .num { background: var(--green); color: white; }
+    .progress-step.done { color: var(--green); }
+
+    /* SECTION */
+    .section { margin-bottom: 36px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .section-num {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .section-header p { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* CARD */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    /* STEPS */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .step-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .step-content h4 { font-weight: 700; font-size: 0.92rem; margin-bottom: 4px; }
+    .step-content p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* CODE */
+    pre {
+      background: #1A1A2E;
+      color: #E2E8F0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      overflow-x: auto;
+      margin: 12px 0;
+      line-height: 1.7;
+    }
+    code {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+
+    /* ALERT */
+    .alert {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.87rem;
+      margin: 12px 0;
+      align-items: flex-start;
+    }
+    .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .alert.warning { background: var(--orange-light); border: 1px solid #FCD34D; }
+    .alert.success { background: var(--green-light); border: 1px solid #6EE7B7; }
+    .alert.info { background: var(--blue-light); border: 1px solid #93C5FD; }
+    .alert.danger { background: var(--red-light); border: 1px solid #FCA5A5; }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+    th {
+      background: var(--bg);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .tag-green { background: var(--green-light); color: #065F46; }
+    .tag-blue { background: var(--blue-light); color: #1E40AF; }
+    .tag-orange { background: var(--orange-light); color: #92400E; }
+
+    /* COLORS */
+    .bg-purple { background: var(--primary-light); color: var(--primary); }
+    .bg-green { background: var(--green-light); color: #065F46; }
+    .bg-orange { background: var(--orange-light); color: #92400E; }
+    .bg-blue { background: var(--blue-light); color: #1E40AF; }
+    .bg-red { background: var(--red-light); color: #991B1B; }
+
+    /* ENV FILE */
+    .env-block {
+      background: #1A1A2E;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 2;
+    }
+    .env-key { color: #7DD3FC; }
+    .env-val { color: #86EFAC; }
+    .env-comment { color: #6B7280; }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+    footer strong { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+      <span>IFRI_MentorLink</span>
+    </div>
+    <h1>Guide de lancement</h1>
+    <p>Instructions complètes pour installer et lancer le projet en local</p>
+    <div class="badge">PIL1_2526_01 · Projet intégrateur L1 · 2025-2026</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- PRÉREQUIS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-purple">01</div>
+      <div>
+        <h2>Prérequis</h2>
+        <p>Logiciels à installer avant de commencer</p>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Logiciel</th>
+            <th>Version</th>
+            <th>Téléchargement</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Python</strong></td>
+            <td>3.10+</td>
+            <td><code>python.org/downloads</code></td>
+            <td><span class="tag tag-green">Requis</span></td>
+          </tr>
+          <tr>
+            <td><strong>Git</strong></td>
+            <td>2.x</td>
+            <td><code>git-scm.com</code></td>
+            <td><span class="tag tag-green">Requis</span></td>
+          </tr>
+          <tr>
+            <td><strong>MySQL</strong></td>
+            <td>8.0+</td>
+            <td><code>dev.mysql.com</code></td>
+            <td><span class="tag tag-orange">Optionnel (local)</span></td>
+          </tr>
+          <tr>
+            <td><strong>VS Code</strong></td>
+            <td>Dernière</td>
+            <td><code>code.visualstudio.com</code></td>
+            <td><span class="tag tag-blue">Recommandé</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CLONER LE REPO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-blue">02</div>
+      <div>
+        <h2>Cloner le dépôt GitHub</h2>
+        <p>Récupérer le code source du projet</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon bg-blue">1</div>
+          <div class="step-content">
+            <h4>Ouvrez un terminal</h4>
+            <p>Sur Windows : <strong>cmd</strong> ou <strong>PowerShell</strong>. Naviguez où vous voulez placer le projet.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-blue">2</div>
+          <div class="step-content">
+            <h4>Clonez le repo</h4>
+            <pre><code>git clone https://github.com/jolititorkiti229/PIL1_2526_01
+cd PIL1_2526_01/backend</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENVIRONNEMENT VIRTUEL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-purple">03</div>
+      <div>
+        <h2>Créer l'environnement virtuel</h2>
+        <p>Isoler les dépendances du projet</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon bg-purple">1</div>
+          <div class="step-content">
+            <h4>Créer l'environnement</h4>
+            <pre><code>python -m venv venv</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-purple">2</div>
+          <div class="step-content">
+            <h4>Activer l'environnement</h4>
+            <p>Sur <strong>Windows</strong> :</p>
+            <pre><code>venv\Scripts\activate</code></pre>
+            <p>Sur <strong>Mac/Linux</strong> :</p>
+            <pre><code>source venv/bin/activate</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-purple">3</div>
+          <div class="step-content">
+            <h4>Installer les dépendances</h4>
+            <pre><code>pip install -r requirements.txt</code></pre>
+            <p>Si le fichier n'existe pas, installez manuellement :</p>
+            <pre><code>pip install flask mysql-connector-python python-dotenv</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHIER .ENV -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-orange">04</div>
+      <div>
+        <h2>Configurer le fichier .env</h2>
+        <p>Variables de connexion à la base de données Railway</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="alert warning">
+        <span class="alert-icon">⚠️</span>
+        <div>Créez ce fichier <strong>manuellement</strong> dans le dossier <code>backend/</code>. Ne le commitez jamais sur GitHub — il contient des informations sensibles.</div>
+      </div>
+      <p style="margin: 16px 0 10px; font-weight: 600; font-size: 0.87rem;">Créez un fichier nommé <code>.env</code> avec ce contenu :</p>
+      <div class="env-block">
+        <div><span class="env-comment"># Clé secrète Flask</span></div>
+        <div><span class="env-key">SECRET_KEY</span>=<span class="env-val">mentorlink_secret_key_ifri_2026</span></div>
+        <br>
+        <div><span class="env-comment"># Base de données Railway</span></div>
+        <div><span class="env-key">MYSQL_HOST</span>=<span class="env-val">acela.proxy.rlwy.net</span></div>
+        <div><span class="env-key">MYSQL_USER</span>=<span class="env-val">root</span></div>
+        <div><span class="env-key">MYSQL_PASSWORD</span>=<span class="env-val">[mot_de_passe_fourni_par_le_groupe]</span></div>
+        <div><span class="env-key">MYSQL_DB</span>=<span class="env-val">railway</span></div>
+        <div><span class="env-key">MYSQL_PORT</span>=<span class="env-val">17487</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LANCER L'APPLICATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-green">05</div>
+      <div>
+        <h2>Lancer l'application</h2>
+        <p>Démarrer le serveur Flask en local</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon bg-green">1</div>
+          <div class="step-content">
+            <h4>Assurez-vous d'être dans le bon dossier</h4>
+            <pre><code>cd PIL1_2526_01/backend</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-green">2</div>
+          <div class="step-content">
+            <h4>Lancez Flask</h4>
+            <pre><code>python app.py</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-green">3</div>
+          <div class="step-content">
+            <h4>Ouvrez l'application dans le navigateur</h4>
+            <p>Vous devriez voir ce message dans le terminal :</p>
+            <pre><code>* Running on http://127.0.0.1:5000
+* Debug mode: on</code></pre>
+            <p>Allez sur <code>http://127.0.0.1:5000</code> dans votre navigateur.</p>
+          </div>
+        </div>
+      </div>
+      <div class="alert success" style="margin-top: 16px;">
+        <span class="alert-icon">✅</span>
+        <div>Si la page d'accueil s'affiche, l'installation est réussie ! La base de données est partagée sur Railway, vos données sont synchronisées avec tous les membres du groupe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERREURS COURANTES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-red">06</div>
+      <div>
+        <h2>Erreurs courantes</h2>
+        <p>Solutions aux problèmes fréquents</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon bg-red">!</div>
+          <div class="step-content">
+            <h4>ModuleNotFoundError: No module named 'flask'</h4>
+            <p>Les dépendances ne sont pas installées. Exécutez :</p>
+            <pre><code>pip install -r requirements.txt</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-red">!</div>
+          <div class="step-content">
+            <h4>Can't connect to MySQL server</h4>
+            <p>Le fichier <code>.env</code> est absent ou mal configuré. Vérifiez que le fichier existe dans <code>backend/</code> et que le port est bien <code>17487</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-red">!</div>
+          <div class="step-content">
+            <h4>Lost connection to MySQL server</h4>
+            <p>La connexion Railway a expiré. Relancez simplement <code>python app.py</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon bg-red">!</div>
+          <div class="step-content">
+            <h4>Address already in use (port 5000)</h4>
+            <p>Un autre processus utilise le port. Fermez-le ou changez le port :</p>
+            <pre><code>python app.py --port 5001</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRUCTURE DU PROJET -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-blue">07</div>
+      <div>
+        <h2>Structure du projet</h2>
+        <p>Organisation des fichiers et dossiers</p>
+      </div>
+    </div>
+    <div class="card">
+      <pre><code>PIL1_2526_01/
+├── backend/
+│   ├── app.py              ← Point d'entrée principal
+│   ├── config.py           ← Configuration
+│   ├── requirements.txt    ← Dépendances Python
+│   ├── .env                ← Variables d'environnement (à créer)
+│   ├── .env.example        ← Modèle du fichier .env
+│   ├── models/             ← Modèles de données
+│   ├── routes/             ← Routes Flask
+│   ├── templates/          ← Templates HTML (Jinja2)
+│   ├── static/
+│   │   ├── css/            ← Feuilles de style
+│   │   ├── js/             ← Scripts JavaScript
+│   │   └── uploads/        ← Photos de profil
+│   └── utils/              ← Fonctions utilitaires
+├── frontend/               ← Pages frontend statiques
+├── database/
+│   └── mentorlink.sql      ← Structure de la base de données
+├── documentation/          ← Rapport et docs
+└── README.md</code></pre>
+    </div>
+  </div>
+
+  <!-- INFORMATIONS BDD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num bg-purple">08</div>
+      <div>
+        <h2>Base de données</h2>
+        <p>Architecture et tables principales</p>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Table</th><th>Description</th><th>Module</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>users</code></td><td>Comptes et profils utilisateurs</td><td><span class="tag tag-blue">Auth</span></td></tr>
+          <tr><td><code>filieres</code></td><td>Filières IFRI (IA, IM, GL, SI, SE&IoT)</td><td><span class="tag tag-blue">Auth</span></td></tr>
+          <tr><td><code>matieres</code></td><td>Matières disponibles</td><td><span class="tag tag-blue">Auth</span></td></tr>
+          <tr><td><code>competences</code></td><td>Points forts/faibles par utilisateur</td><td><span class="tag tag-green">Matching</span></td></tr>
+          <tr><td><code>disponibilites</code></td><td>Créneaux horaires disponibles</td><td><span class="tag tag-green">Matching</span></td></tr>
+          <tr><td><code>matching</code></td><td>Résultats de l'algorithme</td><td><span class="tag tag-green">Matching</span></td></tr>
+          <tr><td><code>mentorat</code></td><td>Offres et demandes de mentorat</td><td><span class="tag tag-orange">Mentorat</span></td></tr>
+          <tr><td><code>conversations</code></td><td>Fils de messagerie</td><td><span class="tag tag-blue">Messagerie</span></td></tr>
+          <tr><td><code>messages</code></td><td>Messages envoyés</td><td><span class="tag tag-blue">Messagerie</span></td></tr>
+          <tr><td><code>notifications</code></td><td>Notifications utilisateur</td><td><span class="tag tag-blue">Messagerie</span></td></tr>
+          <tr><td><code>sessions_mentorat</code></td><td>Sessions planifiées</td><td><span class="tag tag-orange">Mentorat</span></td></tr>
+          <tr><td><code>avis</code></td><td>Évaluations après session</td><td><span class="tag tag-orange">Mentorat</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>IFRI_MentorLink · Projet intégrateur L1 · <strong>PIL1_2526_01</strong> · UAC — 2025-2026</p>
+  <p style="margin-top: 8px;">Supervisé par M. Ratheil HOUNDJI · Encadrants : M. Armand ACCROMBESSI & Mme Maryse GAHOU</p>
+</footer>
+
+</body>
+</html>
