@@ -1,0 +1,36 @@
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    <span>IFRI_MentorLink</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="{{ url_for('dashboard') }}" class="{{ 'active' if active_page=='dashboard' else '' }}">
+      <span class="nav-icon"><i class="fas fa-house"></i></span> Tableau de bord
+    </a>
+    <a href="{{ url_for('profil') }}" class="{{ 'active' if active_page=='profil' else '' }}">
+      <span class="nav-icon"><i class="fas fa-user"></i></span> Mon profil
+    </a>
+    <a href="{{ url_for('recherche') }}" class="{{ 'active' if active_page=='recherche' else '' }}">
+      <span class="nav-icon"><i class="fas fa-magnifying-glass"></i></span> Rechercher
+    </a>
+    <a href="{{ url_for('offres') }}" class="{{ 'active' if active_page=='offres' else '' }}">
+      <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span> Mes offres / demandes
+    </a>
+    <a href="{{ url_for('correspondances') }}" class="{{ 'active' if active_page=='correspondances' else '' }}">
+      <span class="nav-icon"><i class="fas fa-handshake"></i></span> Mes correspondances
+    </a>
+    <a href="{{ url_for('messagerie') }}" class="{{ 'active' if active_page=='messagerie' else '' }}">
+      <span class="nav-icon"><i class="fas fa-comment-dots"></i></span> Messagerie
+      {% if unread_messages > 0 %}<span class="badge-count">{{ unread_messages }}</span>{% endif %}
+    </a>
+    <a href="{{ url_for('notifications') }}" class="{{ 'active' if active_page=='notifications' else '' }}">
+      <span class="nav-icon"><i class="fas fa-bell"></i></span> Notifications
+      {% if unread_notifications > 0 %}<span class="badge-count">{{ unread_notifications }}</span>{% endif %}
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="{{ url_for('logout') }}">
+      <span class="nav-icon"><i class="fas fa-right-from-bracket"></i></span> Déconnexion
+    </a>
+  </div>
+</aside>

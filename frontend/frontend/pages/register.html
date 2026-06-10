@@ -1,294 +1,225 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S'inscrire — IFRI_MentorLink</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    body { background: linear-gradient(135deg, #EEF2FF 0%, #F8F7FF 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
-    .register-container { background: #fff; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); width: 100%; max-width: 680px; padding: 48px 56px; }
-    .register-header { text-align: center; margin-bottom: 36px; }
-    .register-header .logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; }
-    .register-header .logo-icon { width: 44px; height: 44px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-    .register-header .logo span { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
-    .step-indicator { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 32px; }
-    .step-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; transition: all var(--transition); }
-    .step-dot.active { background: var(--primary); color: #fff; }
-    .step-dot.done { background: var(--success); color: #fff; }
-    .step-dot.inactive { background: var(--border); color: var(--text-muted); }
-    .step-line { flex: 1; height: 2px; background: var(--border); max-width: 60px; }
-    .step-line.done { background: var(--success); }
-    .form-section { display: none; }
-    .form-section.active { display: block; }
-    .competence-tag {
-      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
-      border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;
-      border: 2px solid var(--border); background: #fff; transition: all var(--transition);
-    }
-    .competence-tag.selected-fort { border-color: var(--success); background: rgba(16,185,129,.1); color: var(--success); }
-    .competence-tag.selected-faible { border-color: var(--danger); background: rgba(239,68,68,.1); color: var(--danger); }
-    .competences-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .dispo-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: 8px; }
-    @media(max-width:600px) { .register-container { padding: 32px 24px; } .dispo-row { grid-template-columns: 1fr 1fr; } }
-  </style>
-</head>
-<body>
-<div class="register-container">
-  <div class="register-header">
-    <div class="logo">
-      <div class="logo-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span>IFRI_MentorLink</span>
-    </div>
-    <h2 style="margin-bottom:4px">Rejoignez la communauté</h2>
-    <p>Créez votre compte et commencez votre aventure de mentorat.</p>
-  </div>
+{% extends "base.html" %}
+{% block title %}S'inscrire - IFRI_MentorLink{% endblock %}
+{% block body %}
+<style>
+.auth-page { min-height:100vh; display:grid; grid-template-columns:1fr 1.3fr; }
+.auth-left { background:linear-gradient(135deg, #3D24B8, var(--primary), #7B62F0); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px; color:#fff; position:relative; overflow:hidden; }
+.auth-left::before { content:''; position:absolute; width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.05);top:-100px;right:-100px; }
+.auth-left::after { content:''; position:absolute; width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-80px;left:-80px; }
+.auth-left-content { position:relative; z-index:1; text-align:center; }
+.auth-brand { display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:30px; }
+.auth-brand .b-icon { width:50px;height:50px;background:rgba(255,255,255,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem; }
+.auth-brand span { font-family:'Sora',sans-serif; font-weight:700; font-size:1.2rem; }
+.auth-illustration { font-size:6rem; margin:20px 0; }
+.auth-right { display:flex; align-items:center; justify-content:center; padding:40px; background:#fff; overflow-y:auto; }
+.auth-form-box { width:100%; max-width:520px; }
+.auth-form-box h2 { font-size:1.6rem; font-weight:800; margin-bottom:6px; }
+.auth-form-box .subtitle { color:var(--text-muted); margin-bottom:28px; font-size:0.92rem; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.auth-footer { text-align:center; margin-top:20px; font-size:0.9rem; color:var(--text-muted); }
+.auth-footer a { color:var(--primary); font-weight:600; }
+.competences-section { background:var(--bg); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px; }
+.competences-section h4 { font-size:0.9rem; font-weight:700; margin-bottom:12px; }
+.comp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.comp-chip { display:flex; align-items:center; gap:6px; padding:8px 10px; border-radius:8px; background:#fff; border:1.5px solid var(--border); cursor:pointer; font-size:0.8rem; font-weight:500; transition:var(--transition); }
+.comp-chip input { display:none; }
+.comp-chip.selected-fort { border-color:var(--primary); background:rgba(92,63,228,0.08); color:var(--primary); }
+.comp-chip.selected-faible { border-color:var(--secondary); background:rgba(240,90,126,0.08); color:var(--secondary); }
+.auth-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+</style>
 
-  <!-- Step indicator -->
-  <div class="step-indicator">
-    <div class="step-dot active" id="step-1">1</div>
-    <div class="step-line" id="line-1"></div>
-    <div class="step-dot inactive" id="step-2">2</div>
-    <div class="step-line" id="line-2"></div>
-    <div class="step-dot inactive" id="step-3">3</div>
-  </div>
-
-  <div id="error-msg" class="hidden" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--danger);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:20px;font-size:13px;font-weight:500"></div>
-
-  <!-- Étape 1 : Infos personnelles -->
-  <div class="form-section active" id="section-1">
-    <h3 style="margin-bottom:4px">📋 Informations personnelles</h3>
-    <p style="margin-bottom:24px;font-size:13px">Renseignez vos informations de base</p>
-    <div class="grid-2">
-      <div class="form-group">
-        <label class="form-label">Nom *</label>
-        <input type="text" id="nom" class="form-control" placeholder="Entrez votre nom">
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <div class="auth-brand">
+        <div class="b-icon"><i class="fas fa-graduation-cap"></i></div>
+        <span>IFRI_MentorLink</span>
       </div>
-      <div class="form-group">
-        <label class="form-label">Prénom *</label>
-        <input type="text" id="prenom" class="form-control" placeholder="Entrez votre prénom">
-      </div>
-    </div>
-    <div class="form-group mt-16">
-      <label class="form-label">Email *</label>
-      <input type="email" id="email" class="form-control" placeholder="Entrez votre email">
-    </div>
-    <div class="form-group mt-16">
-      <label class="form-label">Téléphone *</label>
-      <input type="tel" id="telephone" class="form-control" placeholder="Entrez votre numéro">
-    </div>
-    <div class="grid-2 mt-16">
-      <div class="form-group">
-        <label class="form-label">Filière *</label>
-        <select id="filiere_id" class="form-control">
-          <option value="">Sélectionnez votre filière</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Niveau d'étude *</label>
-        <select id="niveau" class="form-control">
-          <option value="">Sélectionnez votre niveau</option>
-          <option value="Licence1">Licence 1</option>
-          <option value="Licence2">Licence 2</option>
-          <option value="Licence3">Licence 3</option>
-          <option value="Master1">Master 1</option>
-          <option value="Master2">Master 2</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid-2 mt-16">
-      <div class="form-group">
-        <label class="form-label">Mot de passe *</label>
-        <input type="password" id="password" class="form-control" placeholder="Entrez un mot de passe">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Confirmer le mot de passe *</label>
-        <input type="password" id="password2" class="form-control" placeholder="Confirmez votre mot de passe">
-      </div>
-    </div>
-    <button onclick="goStep(2)" class="btn btn-primary w-full mt-24">Suivant →</button>
-  </div>
-
-  <!-- Étape 2 : Compétences -->
-  <div class="form-section" id="section-2">
-    <h3 style="margin-bottom:4px">🧠 Compétences</h3>
-    <p style="margin-bottom:8px;font-size:13px">Cliquez une fois pour marquer comme <span style="color:var(--success);font-weight:600">point fort</span>, deux fois pour <span style="color:var(--danger);font-weight:600">point faible</span>, trois fois pour désélectionner.</p>
-    <div class="competences-grid" id="matieres-grid">
-      <div class="loading-center"><div class="spinner"></div></div>
-    </div>
-    <div class="form-group mt-24">
-      <label class="form-label">Bio courte (facultatif)</label>
-      <textarea id="bio" class="form-control" rows="3" placeholder="Parlez-vous en quelques mots..."></textarea>
-    </div>
-    <div class="flex gap-12 mt-24">
-      <button onclick="goStep(1)" class="btn btn-secondary" style="flex:1">← Retour</button>
-      <button onclick="goStep(3)" class="btn btn-primary" style="flex:2">Suivant →</button>
+      <h2>Rejoignez la communauté</h2>
+      <p style="opacity:0.85;line-height:1.6;">Créez votre compte et commencez votre aventure de mentorat.</p>
+      <div class="auth-illustration"><i class="fas fa-handshake" style="font-size:6rem;opacity:0.9;"></i></div>
     </div>
   </div>
 
-  <!-- Étape 3 : Disponibilités -->
-  <div class="form-section" id="section-3">
-    <h3 style="margin-bottom:4px">🕐 Disponibilités</h3>
-    <p style="margin-bottom:16px;font-size:13px">Ajoutez vos créneaux disponibles pour les sessions de mentorat (facultatif)</p>
-    <div id="dispos-list"></div>
-    <button onclick="addDispo()" class="btn btn-secondary btn-sm mt-8">+ Ajouter un créneau</button>
-    <div class="flex gap-12 mt-24">
-      <button onclick="goStep(2)" class="btn btn-secondary" style="flex:1">← Retour</button>
-      <button onclick="submitRegister()" class="btn btn-primary" style="flex:2" id="register-btn">S'inscrire 🎉</button>
+  <div class="auth-right">
+    <div class="auth-form-box">
+      <h2>Créer un compte</h2>
+      <p class="subtitle">Rejoignez des centaines d'étudiants IFRI</p>
+
+      <form method="POST" action="{{ url_for('register') }}">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="nom" class="form-control" placeholder="Entrez votre nom" required>
+          </div>
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" name="prenom" class="form-control" placeholder="Entrez votre prénom" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" placeholder="Entrez votre email" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Téléphone</label>
+            <input type="tel" name="telephone" class="form-control" placeholder="Entrez votre numéro" required>
+          </div>
+
+          <div class="form-group">
+            <label>Filière</label>
+            <select name="filiere_id" class="form-control" required>
+              <option value="" disabled selected>Sélectionnez votre filière</option>
+              {% for f in filieres %}
+              <option value="{{ f.id }}">{{ f.nom }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Niveau d'étude</label>
+            <select name="niveau" class="form-control" required>
+              <option value="" disabled selected>Sélectionnez votre niveau</option>
+              <option value="Licence1">Licence 1</option>
+              <option value="Licence2">Licence 2</option>
+              <option value="Licence3">Licence 3</option>
+              <option value="Master1">Master 1</option>
+              <option value="Master2">Master 2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe</label>
+            <div class="input-icon-wrap">
+              <input type="password"
+                     name="password"
+                     id="pwd1"
+                     class="form-control"
+                     placeholder="Entrez un mot de passe"
+                     required
+                     oninput="checkPasswordStrength(this.value)">
+              <button type="button" class="eye-toggle" onclick="togglePwd('pwd1')">👁</button>
+            </div>
+
+            <!-- AJOUT : indicateur de sécurité -->
+            <div style="margin-top:8px;">
+              <div style="height:5px;background:var(--border);border-radius:10px;overflow:hidden;">
+                <div id="strength-bar" style="height:100%;width:0%;border-radius:10px;transition:all 0.3s;"></div>
+              </div>
+              <span id="strength-text" style="font-size:0.78rem;font-weight:600;margin-top:4px;display:block;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <div class="input-icon-wrap">
+            <input type="password" name="password2" id="pwd2" class="form-control" placeholder="Confirmez votre mot de passe" required>
+            <button type="button" class="eye-toggle" onclick="togglePwd('pwd2')"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+
+        <div class="competences-section">
+          <h4><i class="fas fa-bolt" style="color:#F59E0B;"></i> Vos points forts (matières maîtrisées)</h4>
+          <div class="comp-grid">
+            {% for m in matieres %}
+            <label class="comp-chip" onclick="toggleComp(this,'fort')">
+              <input type="checkbox" name="forts" value="{{ m.id }}">
+              {{ m.nom }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="competences-section">
+          <h4><i class="fas fa-book-open" style="color:#6366F1;"></i> Vos points faibles (besoin d'aide)</h4>
+          <div class="comp-grid">
+            {% for m in matieres %}
+            <label class="comp-chip" onclick="toggleComp(this,'faible')">
+              <input type="checkbox" name="faibles" value="{{ m.id }}">
+              {{ m.nom }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">S'inscrire</button>
+      </form>
+
+      <div class="auth-footer">
+        Déjà un compte ? <a href="{{ url_for('login') }}">Se connecter</a>
+      </div>
     </div>
-    <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted)">Déjà un compte ? <a href="/pages/login.html" style="color:var(--primary);font-weight:600">Se connecter</a></p>
   </div>
 </div>
+{% endblock %}
 
-<script src="../js/utils.js"></script>
+{% block extra_js %}
 <script>
-  let matieres = [];
-  let selectedCompetences = {}; // { matiere_id: 'fort' | 'faible' }
+function togglePwd(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
 
-  async function loadData() {
-    const [fils, mats] = await Promise.all([
-      api('/auth/filieres'),
-      api('/auth/matieres')
-    ]);
-    matieres = mats;
-    const sel = document.getElementById('filiere_id');
-    fils.forEach(f => {
-      sel.innerHTML += `<option value="${f.id}">${f.nom}</option>`;
-    });
-    renderMatieres();
+function checkPasswordStrength(pwd) {
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+
+  const bar = document.getElementById('strength-bar');
+  const text = document.getElementById('strength-text');
+
+  if (pwd.length === 0) {
+    bar.style.width = '0%';
+    text.textContent = '';
+    return;
   }
 
-  function renderMatieres() {
-    const grid = document.getElementById('matieres-grid');
-    grid.innerHTML = matieres.map(m => `
-      <div class="competence-tag" id="mat-${m.id}" onclick="toggleMatiere(${m.id}, '${m.nom}')">
-        ${m.nom}
-      </div>`).join('');
+  if (score <= 2) {
+    bar.style.width = '33%';
+    bar.style.background = '#EF4444';
+    text.textContent = 'Faible';
+  } else if (score <= 3) {
+    bar.style.width = '66%';
+    bar.style.background = '#F59E0B';
+    text.textContent = 'Moyen';
+  } else {
+    bar.style.width = '100%';
+    bar.style.background = '#10B981';
+    text.textContent = 'Fort';
   }
+}
 
-  function toggleMatiere(id, nom) {
-    const el = document.getElementById(`mat-${id}`);
-    const current = selectedCompetences[id];
-    if (!current) {
-      selectedCompetences[id] = 'fort';
-      el.className = 'competence-tag selected-fort';
-      el.innerHTML = `✅ ${nom}`;
-    } else if (current === 'fort') {
-      selectedCompetences[id] = 'faible';
-      el.className = 'competence-tag selected-faible';
-      el.innerHTML = `❓ ${nom}`;
-    } else {
-      delete selectedCompetences[id];
-      el.className = 'competence-tag';
-      el.innerHTML = nom;
-    }
-  }
+function toggleComp(label, type) {
+  const cb = label.querySelector('input');
+  const cls = 'selected-' + type;
+  const autreType = type === 'fort' ? 'faible' : 'fort';
+  const autreCls = 'selected-' + autreType;
+  const matiereId = cb.value;
 
-  function addDispo() {
-    const list = document.getElementById('dispos-list');
-    const idx = list.children.length;
-    const div = document.createElement('div');
-    div.className = 'dispo-row';
-    div.innerHTML = `
-      <div class="form-group">
-        <label class="form-label">Jour</label>
-        <select class="form-control dispo-jour">
-          <option value="Lundi">Lundi</option><option value="Mardi">Mardi</option>
-          <option value="Mercredi">Mercredi</option><option value="Jeudi">Jeudi</option>
-          <option value="Vendredi">Vendredi</option><option value="Samedi">Samedi</option>
-          <option value="Dimanche">Dimanche</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Début</label>
-        <input type="time" class="form-control dispo-debut" value="08:00">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Fin</label>
-        <input type="time" class="form-control dispo-fin" value="12:00">
-      </div>
-      <button type="button" onclick="this.parentElement.remove()" class="btn btn-ghost btn-sm" style="margin-bottom:0;color:var(--danger)">✕</button>`;
-    list.appendChild(div);
-  }
-
-  function goStep(n) {
-    const errEl = document.getElementById('error-msg');
-    errEl.classList.add('hidden');
-
-    if (n === 2) {
-      // Valider étape 1
-      const fields = ['nom', 'prenom', 'email', 'telephone', 'filiere_id', 'niveau', 'password', 'password2'];
-      for (const f of fields) {
-        if (!document.getElementById(f).value) {
-          errEl.textContent = 'Veuillez remplir tous les champs obligatoires.';
-          errEl.classList.remove('hidden'); return;
-        }
-      }
-      if (document.getElementById('password').value !== document.getElementById('password2').value) {
-        errEl.textContent = 'Les mots de passe ne correspondent pas.';
-        errEl.classList.remove('hidden'); return;
-      }
-    }
-
-    for (let i = 1; i <= 3; i++) {
-      document.getElementById(`section-${i}`).classList.remove('active');
-      document.getElementById(`step-${i}`).className = i < n ? 'step-dot done' : i === n ? 'step-dot active' : 'step-dot inactive';
-      if (i < 3) document.getElementById(`line-${i}`).className = i < n ? 'step-line done' : 'step-line';
-    }
-    document.getElementById(`section-${n}`).classList.add('active');
-  }
-
-  async function submitRegister() {
-    const btn = document.getElementById('register-btn');
-    const errEl = document.getElementById('error-msg');
-    errEl.classList.add('hidden');
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px"></div> Inscription...';
-
-    const competences = Object.entries(selectedCompetences).map(([mid, type]) => ({
-      matiere_id: parseInt(mid), type
-    }));
-
-    const disponibilites = [];
-    document.querySelectorAll('.dispo-row').forEach(row => {
-      disponibilites.push({
-        jour: row.querySelector('.dispo-jour').value,
-        heure_debut: row.querySelector('.dispo-debut').value,
-        heure_fin: row.querySelector('.dispo-fin').value
+  setTimeout(() => {
+    label.classList.toggle(cls, cb.checked);
+    if (cb.checked) {
+      const autreName = autreType === 'fort' ? 'forts' : 'faibles';
+      document.querySelectorAll(`.comp-chip input[name="${autreName}"][value="${matiereId}"]`).forEach(autreInput => {
+        autreInput.checked = false;
+        autreInput.closest('.comp-chip').classList.remove(autreCls);
       });
-    });
-
-    try {
-      await api('/auth/register', {
-        method: 'POST',
-        body: {
-          nom: document.getElementById('nom').value.trim(),
-          prenom: document.getElementById('prenom').value.trim(),
-          email: document.getElementById('email').value.trim(),
-          telephone: document.getElementById('telephone').value.trim(),
-          password: document.getElementById('password').value,
-          filiere_id: parseInt(document.getElementById('filiere_id').value),
-          niveau: document.getElementById('niveau').value,
-          bio: document.getElementById('bio').value,
-          competences,
-          disponibilites
-        }
-      });
-      showToast('Bienvenue sur IFRI_MentorLink ! 🎉', 'success');
-      setTimeout(() => window.location.href = '/pages/dashboard.html', 800);
-    } catch (err) {
-      errEl.textContent = err.message || 'Erreur lors de l\'inscription';
-      errEl.classList.remove('hidden');
-      btn.disabled = false;
-      btn.innerHTML = "S'inscrire 🎉";
     }
-  }
-
-  loadData();
+  }, 0);
+}
 </script>
-</body>
-</html>
+{% endblock %}
