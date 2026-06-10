@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Notifications - IFRI_MentorLink{% endblock %}
+{% block body %}
+<div class="app-layout">
+  {% include "sidebar.html" %}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Notifications</h1>
+      <div class="header-actions">
+        <form method="POST" action="{{ url_for('marquer_notifs_lues') }}">
+          <button type="submit" class="btn btn-outline btn-sm">Tout marquer comme lu</button>
+        </form>
+        <div class="avatar avatar-initials">{{ user.prenom[0] }}{{ user.nom[0] }}</div>
+      </div>
+    </div>
+
+    {% if notifs %}
+      {% for n in notifs %}
+      <div class="notif-item {{ '' if n.lu else 'card' }}" style="{{ 'border-color:var(--primary);background:rgba(92,63,228,0.03);' if not n.lu }}">
+        <div class="notif-icon {{ 'green' if 'accepté' in n.contenu.lower() else ('blue' if 'message' in n.contenu.lower() else 'orange') }}">
+            {% if 'accepté' in n.contenu.lower() %}
+              <i class="fas fa-circle-check"></i>
+            {% elif 'message' in n.contenu.lower() %}
+              <i class="fas fa-comment-dots"></i>
+            {% else %}
+              <i class="fas fa-bell"></i>
+            {% endif %}
+</div>
+        <div style="flex:1;">
+          {% if n.titre %}<div class="fw-600" style="font-size:0.92rem;margin-bottom:3px;">{{ n.titre }}</div>{% endif %}
+          <div style="font-size:0.88rem;color:var(--text);">{{ n.contenu }}</div>
+          <div class="notif-time">{{ n.created_at.strftime('%d/%m/%Y à %H:%M') }}</div>
+        </div>
+        {% if not n.lu %}<div style="width:8px;height:8px;background:var(--primary);border-radius:50%;flex-shrink:0;margin-top:4px;"></div>{% endif %}
+      </div>
+      {% endfor %}
+      <div class="text-center mt-24">
+        <a href="{{ url_for('notifications') }}" class="btn btn-outline">Voir toutes les notifications</a>
+      </div>
+    {% else %}
+      <div class="card text-center" style="padding:64px;">
+        <div style="font-size:4rem;margin-bottom:16px;"><i class="fas fa-bell" style="color:var(--primary);"></i></div>
+        <h3>Aucune notification</h3>
+        <p class="text-muted mt-8">Vous êtes à jour ! Toutes vos notifications apparaîtront ici.</p>
+      </div>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}
