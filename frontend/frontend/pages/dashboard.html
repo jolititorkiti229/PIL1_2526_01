@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — IFRI_MentorLink</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .activity-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .suggestion-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 10px; transition: all var(--transition); cursor: pointer; }
+    .suggestion-item:hover { border-color: var(--primary-light); box-shadow: var(--shadow-sm); transform: translateX(4px); }
+    .greeting-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: var(--radius-lg); padding: 32px; color: #fff; margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .greeting-card h2 { color: #fff; font-size: 1.6rem; margin-bottom: 6px; }
+    .greeting-card p { color: rgba(255,255,255,.8); }
+    .greeting-illus { font-size: 64px; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-placeholder"></div>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h3 style="font-family:'Plus Jakarta Sans';font-weight:700">Tableau de bord</h3>
+        <p class="text-sm text-muted">Voici un aperçu de votre activité.</p>
+      </div>
+      <div class="flex gap-8">
+        <button onclick="openModal('modal-offre')" class="btn btn-primary btn-sm">
+          + Nouvelle offre
+        </button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <!-- Greeting -->
+      <div class="greeting-card">
+        <div>
+          <h2 id="greeting-text">Bonjour ! 👋</h2>
+          <p>Voici un aperçu de votre activité sur IFRI_MentorLink.</p>
+          <div class="flex gap-8 mt-16">
+            <a href="/pages/recherche.html" class="btn" style="background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(8px)">🔍 Chercher un mentor</a>
+            <a href="/pages/offres.html" class="btn" style="background:rgba(255,255,255,.15);color:#fff">📋 Mes offres</a>
+          </div>
+        </div>
+        <div class="greeting-illus">🎓</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(79,70,229,.1)">📋</div>
+          <div><div class="stat-value" id="stat-offres">—</div><div class="stat-label">Offres publiées</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(124,58,237,.1)">🤝</div>
+          <div><div class="stat-value" id="stat-demandes">—</div><div class="stat-label">Demandes envoyées</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(236,72,153,.1)">💬</div>
+          <div><div class="stat-value" id="stat-messages">—</div><div class="stat-label">Conversations</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(245,158,11,.1)">🔔</div>
+          <div><div class="stat-value" id="stat-notifs">—</div><div class="stat-label">Messages non lus</div></div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Activité récente -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-16">
+            <h4>Activité récente</h4>
+            <a href="/pages/notifications.html" style="font-size:13px;color:var(--primary);font-weight:600">Voir tout</a>
+          </div>
+          <div id="activite-list">
+            <div class="loading-center" style="padding:30px"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-16">
+            <h4>Suggestions pour vous</h4>
+            <a href="/pages/recherche.html" style="font-size:13px;color:var(--primary);font-weight:600">Voir tout</a>
+          </div>
+          <div id="suggestions-list">
+            <div class="loading-center" style="padding:30px"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal nouvelle offre rapide -->
+<div class="modal-overlay" id="modal-offre">
+  <div class="modal">
+    <div class="flex justify-between items-center mb-24">
+      <h3>Créer une offre / demande</h3>
+      <button onclick="closeModal('modal-offre')" class="btn btn-ghost btn-sm">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="form-group">
+        <label class="form-label">Type *</label>
+        <select id="of-type" class="form-control">
+          <option value="offre">Offre de mentorat (je peux aider)</option>
+          <option value="demande">Demande de mentorat (j'ai besoin d'aide)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Matière *</label>
+        <select id="of-matiere" class="form-control"><option value="">Choisir...</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Format *</label>
+        <select id="of-format" class="form-control">
+          <option value="presentiel">Présentiel</option>
+          <option value="ligne">En ligne</option>
+          <option value="hybride">Hybride</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea id="of-desc" class="form-control" rows="3" placeholder="Décrivez vos disponibilités, objectifs..."></textarea>
+      </div>
+      <button onclick="creerOffre()" class="btn btn-primary w-full">Publier</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+  injectSidebar();
+
+  async function loadDashboard() {
+    const user = await initSidebar();
+    document.getElementById('greeting-text').textContent = `Bonjour ${user.prenom} ! 👋`;
+
+    // Stats profil
+    try {
+      const profile = await api('/users/profile');
+      document.getElementById('stat-offres').textContent = profile.stats.offres;
+      document.getElementById('stat-demandes').textContent = profile.stats.demandes;
+    } catch {}
+
+    // Stats messages
+    try {
+      const convs = await api('/messages/conversations');
+      const nonLus = convs.reduce((acc, c) => acc + (c.non_lus || 0), 0);
+      document.getElementById('stat-messages').textContent = convs.length;
+      document.getElementById('stat-notifs').textContent = nonLus;
+    } catch {}
+
+    // Notifications récentes
+    try {
+      const notifs = await api('/notifications/');
+      const list = document.getElementById('activite-list');
+      if (!notifs.length) {
+        list.innerHTML = `<div class="empty-state" style="padding:30px"><div class="empty-icon" style="font-size:36px">🔔</div><p>Aucune activité récente</p></div>`;
+      } else {
+        list.innerHTML = notifs.slice(0, 5).map(n => `
+          <div class="activity-item">
+            <div class="activity-icon" style="background:rgba(79,70,229,.1)">🔔</div>
+            <div>
+              <div style="font-weight:600;font-size:13px">${n.titre || 'Notification'}</div>
+              <div class="text-muted text-sm mt-4">${n.contenu}</div>
+              <div class="text-sm" style="color:var(--text-light);margin-top:4px">${formatDate(n.created_at)}</div>
+            </div>
+          </div>`).join('');
+      }
+    } catch {}
+
+    // Suggestions
+    try {
+      const suggestions = await api('/matching/suggestions?limit=3');
+      const list = document.getElementById('suggestions-list');
+      if (!suggestions.length) {
+        list.innerHTML = `<div class="empty-state" style="padding:30px"><div class="empty-icon" style="font-size:36px">🤝</div><p>Complétez votre profil pour obtenir des suggestions</p></div>`;
+      } else {
+        list.innerHTML = suggestions.map(s => `
+          <div class="suggestion-item" onclick="window.location='/pages/profile-view.html?id=${s.id}'">
+            ${renderAvatar(s, 'sm')}
+            <div style="flex:1;overflow:hidden">
+              <div style="font-weight:600;font-size:13px">${s.prenom} ${s.nom}</div>
+              <div class="text-muted text-sm">${s.filiere} • ${s.niveau?.replace('Licence', 'L').replace('Master', 'M')}</div>
+              <div class="text-sm" style="color:var(--text-light)">${s.competences?.filter(c=>c.type==='fort').map(c=>c.matiere).slice(0,2).join(', ') || ''}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:700;font-size:13px;color:${s.score>=70?'var(--success)':s.score>=50?'var(--warning)':'var(--text-muted)'}">${s.score}%</div>
+              <div class="text-sm text-muted">Compatibilité</div>
+            </div>
+          </div>`).join('');
+      }
+    } catch {}
+
+    // Charger les matières pour le modal
+    try {
+      const mats = await api('/auth/matieres');
+      const sel = document.getElementById('of-matiere');
+      mats.forEach(m => sel.innerHTML += `<option value="${m.id}">${m.nom}</option>`);
+    } catch {}
+  }
+
+  async function creerOffre() {
+    const type = document.getElementById('of-type').value;
+    const matiere_id = document.getElementById('of-matiere').value;
+    const format = document.getElementById('of-format').value;
+    const description = document.getElementById('of-desc').value;
+    if (!matiere_id) { showToast('Sélectionnez une matière', 'warning'); return; }
+    try {
+      await api('/mentorat/', { method: 'POST', body: { type, matiere_id: parseInt(matiere_id), format, description } });
+      showToast('Offre publiée avec succès !', 'success');
+      closeModal('modal-offre');
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  loadDashboard();
+</script>
+</body>
+</html>
